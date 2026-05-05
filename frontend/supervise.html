@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Supervised Learning Analysis - Kiyora Brand Prediction using Decision Tree, Logistic Regression, and Random Forest models.">
     <link rel="stylesheet" href="global.css">
     <title>Supervise - 4eves</title>
 </head>
@@ -18,10 +20,241 @@
     </nav>
 
     <!-- Content Area -->
-    <main class="content-container">
-        <h2>Supervise</h2>
-        <p>Supervised learning models and insights will be displayed here.</p>
+    <main class="sup-page">
+
+        <!-- Page Header -->
+        <section class="sup-header">
+            <div class="sup-header-badge">Supervised Learning</div>
+            <h1 class="sup-header-title">Kiyora Brand Prediction</h1>
+            <p class="sup-header-desc">
+                วิเคราะห์ปัจจัยที่มีผลต่อการเลือกใช้ผลิตภัณฑ์ Kiyora ด้วยโมเดล Machine Learning
+                <br>Decision Tree · Logistic Regression · Random Forest
+            </p>
+        </section>
+
+        <!-- Model Performance Stats -->
+        <section class="sup-section" id="model-stats">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon">-</span>
+                Model Performance
+            </h2>
+
+            <div class="sup-stats-grid" id="sup-stats-grid">
+                <div class="sup-loading">Load models</div>
+            </div>
+        </section>
+
+        <!-- Graphs Gallery -->
+        <section class="sup-section" id="graphs-gallery">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon">-</span>
+                Visualization
+            </h2>
+            <p class="sup-section-desc">กราฟทั้งหมด</p>
+
+            <div class="sup-gallery">
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/sup/model_performance.png" alt="Model Performance Comparison"
+                        loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Model Performance Comparison</h4>
+                        <p>เปรียบเทียบประสิทธิภาพของทั้ง 3 โมเดล</p>
+                    </div>
+                </div>
+
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/sup/corr_heatmap.png" alt="Correlation Heatmap" loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Correlation Heatmap</h4>
+                        <p>ความสัมพันธ์ระหว่างปัจจัยกับการใช้ Kiyora</p>
+                    </div>
+                </div>
+
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/sup/kiyora_users_age_skin_type.png" alt="Kiyora Users Age & Skin Type"
+                        loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Age & Skin Type Distribution</h4>
+                        <p>อายุและสภาพผิวของผู้ใช้ Kiyora</p>
+                    </div>
+                </div>
+
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/sup/kiyora_factors.png" alt="Kiyora Purchase Factors" loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Purchase Decision Factors</h4>
+                        <p>คะแนนปัจจัยในการเลือกซื้อ Kiyora</p>
+                    </div>
+                </div>
+
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/sup/brand_core_values.png" alt="Brand Core Values Comparison"
+                        loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Brand Core Values</h4>
+                        <p>เปรียบเทียบคุณค่าหลักของแต่ละแบรนด์</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" id="lightbox-close" onclick="closeLightbox(event)"
+            aria-label="Close">&times;</button>
+        <div class="lightbox-content" id="lightbox-content">
+            <img id="lightbox-img" src="" alt="Enlarged graph">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(card) {
+            const img = card.querySelector('img');
+            const captionH4 = card.querySelector('.sup-graph-caption h4');
+            const captionP = card.querySelector('.sup-graph-caption p');
+
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+
+            // Build caption HTML for lightbox
+            let captionHTML = '';
+            if (captionH4) captionHTML += `<strong>${captionH4.textContent}</strong>`;
+            if (captionP) captionHTML += `<br>${captionP.textContent}`;
+            lightboxCaption.innerHTML = captionHTML;
+
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(e) {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        const MODEL_TAG_MAP = {
+            'Logistic Regression': { tag: 'LR', cssClass: 'tag-lr', id: 'card-logistic' },
+            'Decision Tree': { tag: 'DT', cssClass: 'tag-dt', id: 'card-decision-tree' },
+            'Random Forest': { tag: 'RF', cssClass: 'tag-rf', id: 'card-random-forest' }
+        };
+
+        async function loadModelPerformance() {
+            try {
+                const res = await fetch('../models/supervise/model_performance.json');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+
+                const modelKeys = Object.keys(data.Model);
+                const models = modelKeys.map(key => ({
+                    name: data.Model[key],
+                    accuracy: data.Accuracy[key],
+                    precision: data.Precision[key],
+                    recall: data.Recall[key],
+                    f1: data['F1-score'][key]
+                }));
+
+                renderModelCards(models);
+            } catch (err) {
+                console.error('Failed to load model_performance.json:', err);
+                document.getElementById('sup-stats-grid').innerHTML =
+                    '<div class="sup-loading sup-error"> Error load models</div>';
+            }
+        }
+
+        function renderModelCards(models) {
+            const grid = document.getElementById('sup-stats-grid');
+            grid.innerHTML = '';
+
+            models.forEach((model, i) => {
+                const meta = MODEL_TAG_MAP[model.name] || { tag: '??', cssClass: 'tag-lr', id: 'card-unknown' };
+
+                const card = document.createElement('div');
+                card.className = 'sup-model-card';
+                card.id = meta.id;
+
+                card.innerHTML = `
+                    <div class="sup-model-card-header">
+                        <span class="sup-model-tag ${meta.cssClass}">${meta.tag}</span>
+                        <h3>${model.name}</h3>
+                    </div>
+                    <div class="sup-metrics-grid">
+                        <div class="sup-metric">
+                            <span class="sup-metric-value">${model.accuracy.toFixed(2)}</span>
+                            <span class="sup-metric-label">Accuracy</span>
+                        </div>
+                        <div class="sup-metric">
+                            <span class="sup-metric-value">${model.precision.toFixed(2)}</span>
+                            <span class="sup-metric-label">Precision</span>
+                        </div>
+                        <div class="sup-metric">
+                            <span class="sup-metric-value">${model.recall.toFixed(2)}</span>
+                            <span class="sup-metric-label">Recall</span>
+                        </div>
+                        <div class="sup-metric">
+                            <span class="sup-metric-value">${model.f1.toFixed(2)}</span>
+                            <span class="sup-metric-label">F1-Score</span>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+
+                setTimeout(() => {
+                    card.classList.add('visible');
+                    observer.observe(card);
+                }, 100 * (i + 1));
+            });
+        }
+
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.sup-section, .sup-graph-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        loadModelPerformance();
+    </script>
 </body>
 
 </html>
