@@ -7,7 +7,8 @@
 //  Configuration
 // ═══════════════════════════════════════════════════════
 
-const API_BASE = 'http://127.0.0.1:8000';
+const isLocal = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+const API_BASE = isLocal ? 'http://127.0.0.1:8000' : '';
 
 const COLORS = [
     '#667eea', '#764ba2', '#f093fb', '#f5576c',
