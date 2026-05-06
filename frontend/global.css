@@ -97,6 +97,328 @@ body {
 }
 
 /* ===================================================================
+   HOME PAGE STYLES
+   =================================================================== */
+
+.home-page {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    animation: fadeIn 0.5s ease-out;
+    padding-bottom: 60px;
+}
+
+/* --- Home Header --- */
+.home-header {
+    text-align: center;
+    padding: 30px 20px 10px;
+}
+
+.home-header-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 30px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+}
+
+.home-header-title {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #f2f2f7 40%, #a8a8b3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+}
+
+.home-header-desc {
+    color: #8e8e93;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* --- Home Section --- */
+.home-section {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.home-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.home-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-section-icon {
+    font-size: 24px;
+}
+
+.home-section-desc {
+    color: #8e8e93;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* --- Overview Stat Cards --- */
+.home-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.home-stat-card {
+    border-radius: 22px;
+    padding: 28px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.stat-gradient-1 {
+    background: linear-gradient(145deg, rgba(102, 126, 234, 0.18) 0%, #1c1c1e 100%);
+    border-color: rgba(102, 126, 234, 0.2);
+}
+
+.stat-gradient-2 {
+    background: linear-gradient(145deg, rgba(79, 172, 254, 0.18) 0%, #1c1c1e 100%);
+    border-color: rgba(79, 172, 254, 0.2);
+}
+
+.stat-gradient-3 {
+    background: linear-gradient(145deg, rgba(67, 233, 123, 0.18) 0%, #1c1c1e 100%);
+    border-color: rgba(67, 233, 123, 0.2);
+}
+
+.stat-gradient-4 {
+    background: linear-gradient(145deg, rgba(245, 87, 108, 0.18) 0%, #1c1c1e 100%);
+    border-color: rgba(245, 87, 108, 0.2);
+}
+
+.stat-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.stat-value {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    background: linear-gradient(135deg, #f2f2f7, #c8c8cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #8e8e93;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- Error State --- */
+.home-error {
+    grid-column: 1 / -1;
+    background: rgba(245, 87, 108, 0.1);
+    border: 1px solid rgba(245, 87, 108, 0.3);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    color: #f5576c;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* --- Demo Grid --- */
+.home-demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.home-chart-card {
+    background: #1c1c1e;
+    border-radius: 22px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-chart-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+#chart-sex {
+    grid-column: 1 / -1;
+}
+
+.chart-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #e5e5e7;
+}
+
+/* --- Bar Chart --- */
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    animation: fadeSlideUp 0.4s ease forwards;
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+@keyframes fadeSlideUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bar-label {
+    width: 110px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #a8a8b3;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bar-track {
+    flex: 1;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.bar-value {
+    min-width: 32px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #f2f2f7;
+    text-align: right;
+}
+
+/* --- Donut Chart --- */
+.chart-donut-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+.donut {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.donut-hole {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #1c1c1e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.donut-total {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f2f2f7;
+    letter-spacing: -0.5px;
+}
+
+.donut-label {
+    font-size: 10px;
+    color: #8e8e93;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e5e5e7;
+    min-width: 50px;
+}
+
+.legend-val {
+    font-size: 13px;
+    color: #8e8e93;
+    font-weight: 500;
+}
+
+
+
+/* ===================================================================
    SUPERVISE PAGE STYLES
    =================================================================== */
 
@@ -225,25 +547,6 @@ body {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-.sup-model-card.featured {
-    border-color: rgba(102, 126, 234, 0.4);
-    background: linear-gradient(180deg, rgba(102, 126, 234, 0.08) 0%, #1c1c1e 100%);
-}
-
-.sup-model-card.featured:hover {
-    border-color: rgba(102, 126, 234, 0.6);
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
-}
-
-.sup-model-card-badge {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #667eea;
-    letter-spacing: 0.5px;
-}
 
 .sup-model-card-header {
     display: flex;
@@ -584,6 +887,47 @@ body {
         padding: 10px 0;
     }
 
+    /* Home responsive */
+    .home-header-title {
+        font-size: 28px;
+    }
+
+    .home-overview-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .home-demo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 32px;
+    }
+
+    .chart-donut-wrap {
+        gap: 20px;
+    }
+
+    .donut {
+        width: 130px;
+        height: 130px;
+    }
+
+    .donut-hole {
+        width: 72px;
+        height: 72px;
+    }
+
+    .bar-label {
+        min-width: 70px;
+        font-size: 11px;
+    }
+
+    .brand-item {
+        padding: 14px 16px;
+    }
+
+    /* Supervise responsive */
     .sup-header-title {
         font-size: 26px;
     }
