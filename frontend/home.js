@@ -189,9 +189,9 @@ function renderBrands(brands) {
         const color = BRAND_COLORS[name] || COLORS[i % COLORS.length];
 
         let labelText = name;
-        if (i === 0) labelText = '🥇 ' + name;
-        else if (i === 1) labelText = '🥈 ' + name;
-        else if (i === 2) labelText = '🥉 ' + name;
+        if (i === 0) labelText = '1 ' + name;
+        else if (i === 1) labelText = '2 ' + name;
+        else if (i === 2) labelText = '3 ' + name;
 
         const row = document.createElement('div');
         row.className = 'bar-row';
