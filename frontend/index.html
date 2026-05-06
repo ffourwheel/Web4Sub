@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="4eves Analytics Dashboard - ภาพรวมข้อมูลการสำรวจ Cleansing Water">
     <link rel="stylesheet" href="global.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <title>Home - 4eves Analytics</title>
 </head>
 
@@ -34,29 +35,29 @@
         <!-- Overview Stats Cards -->
         <section class="home-section" id="overview-section">
             <h2 class="home-section-title">
-                <span class="home-section-icon">📊</span>
+                <span class="home-section-icon"><i class="ph-fill ph-chart-bar"></i></span>
                 Dataset Overview
             </h2>
             <p class="home-section-desc">สรุปข้อมูลเบื้องต้นจากแบบสอบถาม</p>
 
             <div class="home-overview-grid" id="overview-grid">
                 <div class="home-stat-card stat-gradient-1">
-                    <div class="stat-icon">👥</div>
+                    <div class="stat-icon"><i class="ph-fill ph-users"></i></div>
                     <div class="stat-value" id="stat-total">—</div>
                     <div class="stat-label">ผู้ตอบแบบสอบถาม</div>
                 </div>
                 <div class="home-stat-card stat-gradient-2">
-                    <div class="stat-icon">💧</div>
+                    <div class="stat-icon"><i class="ph-fill ph-drop"></i></div>
                     <div class="stat-value" id="stat-users">—</div>
                     <div class="stat-label">ใช้ Cleansing Water</div>
                 </div>
                 <div class="home-stat-card stat-gradient-3">
-                    <div class="stat-icon">📋</div>
+                    <div class="stat-icon"><i class="ph-fill ph-list-dashes"></i></div>
                     <div class="stat-value" id="stat-features">—</div>
                     <div class="stat-label">คุณลักษณะข้อมูล</div>
                 </div>
                 <div class="home-stat-card stat-gradient-4">
-                    <div class="stat-icon">🚫</div>
+                    <div class="stat-icon"><i class="ph-fill ph-prohibit"></i></div>
                     <div class="stat-value" id="stat-non-users">—</div>
                     <div class="stat-label">ไม่ใช้ Cleansing Water</div>
                 </div>
@@ -66,7 +67,7 @@
         <!-- Demographics Section -->
         <section class="home-section" id="demographics-section">
             <h2 class="home-section-title">
-                <span class="home-section-icon">👤</span>
+                <span class="home-section-icon"><i class="ph-fill ph-user-focus"></i></span>
                 Demographics
             </h2>
             <p class="home-section-desc">ข้อมูลกลุ่มเป้าหมาย</p>
@@ -74,19 +75,19 @@
             <div class="home-demo-grid">
                 <!-- Age Distribution -->
                 <div class="home-chart-card" id="chart-age">
-                    <h3 class="chart-card-title">🎂 กลุ่มอายุ</h3>
+                    <h3 class="chart-card-title"><i class="ph-fill ph-cake"></i> กลุ่มอายุ</h3>
                     <div class="chart-bars" id="age-bars"></div>
                 </div>
 
                 <!-- Skin Type -->
                 <div class="home-chart-card" id="chart-skin">
-                    <h3 class="chart-card-title">✨ ประเภทผิว</h3>
+                    <h3 class="chart-card-title"><i class="ph-fill ph-sparkle"></i> ประเภทผิว</h3>
                     <div class="chart-bars" id="skin-bars"></div>
                 </div>
 
                 <!-- Sex Distribution -->
                 <div class="home-chart-card" id="chart-sex">
-                    <h3 class="chart-card-title">⚧ เพศ</h3>
+                    <h3 class="chart-card-title"><i class="ph-fill ph-gender-intersex"></i> เพศ</h3>
                     <div class="chart-donut-wrap" id="sex-donut"></div>
                 </div>
             </div>
@@ -95,7 +96,7 @@
         <!-- Insights Section -->
         <section class="home-section" id="insights-section">
             <h2 class="home-section-title">
-                <span class="home-section-icon">💡</span>
+                <span class="home-section-icon"><i class="ph-fill ph-lightbulb"></i></span>
                 Brand & Factors
             </h2>
             <p class="home-section-desc">ข้อมูลแบรนด์และปัจจัยการเลือกซื้อ</p>
@@ -103,13 +104,13 @@
             <div class="home-demo-grid">
                 <!-- Top Brands -->
                 <div class="home-chart-card" id="chart-brands">
-                    <h3 class="chart-card-title">🏆 แบรนด์ยอดนิยม</h3>
+                    <h3 class="chart-card-title"><i class="ph-fill ph-trophy"></i> แบรนด์ยอดนิยม</h3>
                     <div class="chart-bars" id="brand-list"></div>
                 </div>
 
                 <!-- Factor Scores -->
                 <div class="home-chart-card" id="chart-factors">
-                    <h3 class="chart-card-title">⚡ ปัจจัยในการเลือกซื้อ</h3>
+                    <h3 class="chart-card-title"><i class="ph-fill ph-lightning"></i> ปัจจัยในการเลือกซื้อ</h3>
                     <div class="chart-bars" id="factor-list"></div>
                 </div>
             </div>

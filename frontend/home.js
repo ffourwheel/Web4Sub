@@ -189,9 +189,9 @@ function renderBrands(brands) {
         const color = BRAND_COLORS[name] || COLORS[i % COLORS.length];
 
         let labelText = name;
-        if (i === 0) labelText = '🥇 ' + name;
-        else if (i === 1) labelText = '🥈 ' + name;
-        else if (i === 2) labelText = '🥉 ' + name;
+        if (i === 0) labelText = '<i class="ph-fill ph-medal" style="color: #FFD700; font-size: 14px; margin-right: 4px;"></i>' + name;
+        else if (i === 1) labelText = '<i class="ph-fill ph-medal" style="color: #C0C0C0; font-size: 14px; margin-right: 4px;"></i>' + name;
+        else if (i === 2) labelText = '<i class="ph-fill ph-medal" style="color: #CD7F32; font-size: 14px; margin-right: 4px;"></i>' + name;
 
         const row = document.createElement('div');
         row.className = 'bar-row';
