@@ -9,7 +9,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 
-df = pd.read_csv('./data/cleansing_water_data.csv')
+df = pd.read_csv('./models/data/cleansing_water_data.csv')
 
 df_clean = df[df['use_cleansing_water'] == 'ใช้'].copy()
 # df_clean.to_csv('clean_cleansing_water_data.csv', index=False)
@@ -48,9 +48,9 @@ plt.rcParams['font.family'] = 'Tahoma'
 plt.figure(figsize=(30, 30))
 top_features = corr.sort_values().index
 sns.heatmap(X[top_features].join(y).corr(), annot=True, cmap='coolwarm', fmt=".2f")
-plt.title('Correlation Heatmap')
+plt.title('Correlation Heatmap (Top 10 Features vs Uses Kiyora)')
 plt.tight_layout()
-plt.savefig('./images/sup/corr_heatmap.png')
+plt.savefig('./models/images/sup/corr_heatmap.png')
 plt.show()
 
 class train:
@@ -80,15 +80,15 @@ class train:
         })
 
     results_df = pd.DataFrame(results)
-
-    with open('./supervise/model_performance.json', 'w') as f:
+    
+    with open('./models/supervise/model_performance.json', 'w') as f:
         f.write(results_df.to_json(indent=4))
     print("\n--- Model Accuracy ---")
     print(results_df)
 
     model = DecisionTreeClassifier(max_depth=3, random_state=42).fit(X_train, y_train)
     import joblib
-    joblib.dump(model, './supervise/dt.pkl')
+    joblib.dump(model, './models/supervise/dt.pkl')
 
     #plot
     results_df.set_index('Model', inplace=True)
@@ -96,32 +96,38 @@ class train:
     plt.title('Model Performance Comparison')
     plt.ylabel('Score')
     plt.legend()
+    plt.xticks(rotation=0)
     plt.tight_layout()
-    plt.savefig('./images/sup/model_performance.png')
+    plt.savefig('./models/images/sup/model_performance.png')
     plt.show()
 
 class plot:
-    df_kiyora_users = df_clean[df_clean['uses_kiyora'] == 1].copy()
-    plt.figure(figsize=(12, 5))
-    plt.subplot(1, 2, 1)
-    sns.countplot(y='age', data=df_kiyora_users, order=df_kiyora_users['age'].value_counts().index)
-    plt.title('อายุคนที่ใช้แบรนด์ Kiyora')
+    top_brands = df_clean['brand_primary'].value_counts().head(5).index.tolist()
+    df_top_brands = df_clean[df_clean['brand_primary'].isin(top_brands)].copy()
 
-    plt.subplot(1, 2, 2)
-    sns.countplot(y='skin_type', data=df_kiyora_users, order=df_kiyora_users['skin_type'].value_counts().index)
-    plt.title('สภาพผิวของคนที่ใช้แบรนด์ Kiyora')
+    plt.figure(figsize=(10, 8))
+    sns.countplot(y='age', hue='brand_primary', data=df_top_brands, order=df_top_brands['age'].value_counts().index)
+    plt.title('อายุคนที่ใช้แต่ละแบรนด์เป็นหลัก')
     plt.tight_layout()
-    plt.savefig('./images/sup/kiyora_users_age_skin_type.png')
+    plt.savefig('./models/images/sup/brand_age.png')
     plt.show()
 
-    plt.figure(figsize=(12, 6))
-    df_factors_kiyora = df_kiyora_users[factor_cols].rename(columns=lambda x: x.replace('factor_', ''))
+    plt.figure(figsize=(10, 8))
+    sns.countplot(y='skin_type', hue='brand_primary', data=df_top_brands, order=df_top_brands['skin_type'].value_counts().index)
+    plt.title('สภาพผิวของคนที่ใช้แต่ละแบรนด์เป็นหลัก')
+    plt.tight_layout()
+    plt.savefig('./models/images/sup/brand_skin_type.png')
+    plt.show()
 
-    sns.boxplot(data=df_factors_kiyora, orient='h')
-    plt.title('คะแนนปัจจัยในการเลือกซื้อ Kiyora')
+    plt.figure(figsize=(14, 8))
+    df_factors = df_top_brands[['brand_primary'] + factor_cols].rename(columns=lambda x: x.replace('factor_', ''))
+    df_melted = df_factors.melt(id_vars='brand_primary', var_name='Factor', value_name='Score')
+
+    sns.boxplot(x='Score', y='Factor', hue='brand_primary', data=df_melted, orient='h')
+    plt.title('คะแนนปัจจัยในการเลือกซื้อแต่ละแบรนด์เป็นหลัก')
     plt.xlabel('คะแนน (1-5)')
     plt.tight_layout()
-    plt.savefig('./images/sup/kiyora_factors.png')
+    plt.savefig('./models/images/sup/brand_factors.png')
     plt.show()
 
 class plotComparison:
@@ -140,5 +146,5 @@ class plotComparison:
     plt.xlabel('Brands')
     plt.ylabel('Factors')
     plt.tight_layout()
-    plt.savefig('./images/sup/brand_core_values.png')
+    plt.savefig('./models/images/sup/brand_core_values.png')
     plt.show()
