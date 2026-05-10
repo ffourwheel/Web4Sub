@@ -213,7 +213,7 @@ for bar in bars:
 
 plt.tight_layout()
 plt.savefig(IMG_DIR / 'cluster_sizes.png', dpi=150)
-plt.close()
+#plt.show()
 
 # ── 8.2 Cluster Feature Heatmap ──
 cluster_centers = pd.DataFrame(kmeans.cluster_centers_, columns=X.columns)
@@ -226,7 +226,7 @@ sns.heatmap(clean_centers.T, annot=True, cmap="Purples", fmt=".2f", cbar=True)
 plt.title("Feature Dominance per Cluster", fontsize=14, pad=15)
 plt.tight_layout()
 plt.savefig(IMG_DIR / 'cluster_heatmap.png', dpi=150)
-plt.close()
+#plt.show()
 
 # ── 8.3 PCA Cluster Scatter Plot ──
 plt.figure(figsize=(9, 6))
@@ -240,7 +240,7 @@ plt.ylabel("PCA Component 2")
 plt.legend(title="Cluster", bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 plt.savefig(IMG_DIR / 'cluster_pca.png', dpi=150)
-plt.close()
+#plt.show()
 
 # ── 8.4 Anomaly Detection Scatter Plot (PCA 2D) ──
 plt.figure(figsize=(9, 6))
@@ -256,7 +256,7 @@ plt.ylabel("PCA Component 2")
 plt.legend(title="Status", bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 plt.savefig(IMG_DIR / 'anomaly_pca.png', dpi=150)
-plt.close()
+#plt.show()
 
 # ── 8.5 Anomaly Score Distribution ──
 plt.figure(figsize=(8, 5))
@@ -269,7 +269,7 @@ plt.ylabel("Frequency")
 plt.legend()
 plt.tight_layout()
 plt.savefig(IMG_DIR / 'anomaly_score_dist.png', dpi=150)
-plt.close()
+#plt.show()
 
 # ── 8.6 PCA Variance Explained ──
 plt.figure(figsize=(8, 5))
@@ -284,17 +284,4 @@ plt.ylabel("Variance Explained (%)")
 plt.legend()
 plt.tight_layout()
 plt.savefig(IMG_DIR / 'pca_variance.png', dpi=150)
-plt.close()
-
-print("=" * 60)
-print("Unsupervised Learning Analysis Complete!")
-print(f"   Clustering: K-Means (k={N_CLUSTERS})")
-print(f"   Anomaly Detection: Isolation Forest")
-print(f"      - Anomalies found: {n_anomalies}/{len(df_clean)} ({anomaly_pct}%)")
-print(f"   PCA Analysis:")
-print(f"      - Total features: {X.shape[1]}")
-print(f"      - 2D variance explained: {pca_summary['variance_explained_2d']}%")
-print(f"      - Components for 90%: {n_components_90}")
-print(f"   Output: {OUT_JSON}")
-print(f"   Images: {IMG_DIR}")
-print("=" * 60)
+#plt.show()
