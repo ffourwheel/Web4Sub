@@ -70,7 +70,7 @@ async function loadClusterProfiles(observer) {
 
         renderDistributionBars(data.clusters, distContainer);
         renderPersonaCards(data.clusters, personaContainer, observer);
-        
+
         if (data.anomaly_detection) {
             renderAnomalyData(data.anomaly_detection);
         }
@@ -95,11 +95,11 @@ async function loadClusterProfiles(observer) {
 function renderPCAMetrics(pca) {
     const container = document.getElementById('pca-metrics');
     if (!container) return;
-    
+
     container.innerHTML = `
-        <div><strong>Total Features:</strong> ${pca.total_features}</div>
-        <div><strong style="color: #43e97b;">2D Variance:</strong> ${pca.variance_explained_2d}%</div>
-        <div><strong>90% Variance:</strong> ${pca.components_for_90_pct} components</div>
+        <div><strong>Total Features:</strong> <br>${pca.total_features}</div>
+        <div><strong style="color: #43e97b;">2D Variance:</strong> <br>${pca.variance_explained_2d}%</div>
+        <div><strong>90% Variance:</strong> <br>${pca.components_for_90_pct} components</div>
     `;
 }
 
@@ -108,10 +108,10 @@ function renderAnomalyData(anomaly) {
     const pctEl = document.getElementById('anomaly-pct');
     const countEl = document.getElementById('anomaly-counts');
     const featuresEl = document.getElementById('anomaly-features-list');
-    
+
     if (pctEl) pctEl.innerText = `${anomaly.anomaly_percentage}%`;
     if (countEl) countEl.innerText = `พบ ${anomaly.n_anomalies} คน จาก ${anomaly.total_samples} คน`;
-    
+
     if (featuresEl && anomaly.top_anomaly_features) {
         featuresEl.innerHTML = anomaly.top_anomaly_features.slice(0, 5).map(f => {
             return `
