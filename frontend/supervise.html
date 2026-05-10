@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Supervised Learning Analysis - Kiyora Brand Prediction using Decision Tree, Logistic Regression, and Random Forest models.">
+    <meta name="description" content="4eves Analytics - Supervised Learning Models">
     <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="supervise.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <title>Supervise - 4eves</title>
+    <title>Model Analysis - 4eves Analytics</title>
 </head>
 
 <body>
@@ -45,11 +45,117 @@
             </div>
         </section>
 
+        <!-- Customer Prediction Section -->
+        <section class="sup-section" id="prediction-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-magic-wand"></i></span>
+                Customer Group Prediction
+            </h2>
+            <p class="sup-section-desc">ทำนายว่าคุณเป็นกลุ่มลูกค้า Kiyora หรือป่าว</p>
+
+            <div class="predict-form-card">
+                <!-- Gender -->
+                <div class="predict-field">
+                    <label class="predict-label"><i class="ph-fill ph-gender-intersex"></i> เพศ</label>
+                    <div class="predict-radio-group" id="sex-group">
+                        <label class="predict-radio">
+                            <input type="radio" name="sex" value="หญิง" checked>
+                            <span class="predict-radio-btn"><i class="ph-fill ph-gender-female"></i> หญิง</span>
+                        </label>
+                        <label class="predict-radio">
+                            <input type="radio" name="sex" value="ชาย">
+                            <span class="predict-radio-btn"><i class="ph-fill ph-gender-male"></i> ชาย</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Skin Type -->
+                <div class="predict-field">
+                    <label class="predict-label"><i class="ph-fill ph-drop"></i> สภาพผิว (Skin Type)</label>
+                    <div class="predict-select-wrap">
+                        <select id="skin-type" class="predict-select">
+                            <option value="ผิวมัน">ผิวมัน</option>
+                            <option value="ผิวธรรมดา">ผิวธรรมดา</option>
+                            <option value="ผิวแห้ง">ผิวแห้ง</option>
+                            <option value="ผิวขาดน้ำ">ผิวขาดน้ำ</option>
+                            <option value="ผิวผสม">ผิวผสม</option>
+                            <option value="ไม่แน่ใจ/ไม่ทราบ">ไม่แน่ใจ / ไม่ทราบ</option>
+                        </select>
+                        <i class="ph ph-caret-down predict-select-arrow"></i>
+                    </div>
+                </div>
+
+                <!-- Concerns (Grouped) -->
+                <div class="predict-field">
+                    <label class="predict-label"><i class="ph-fill ph-warning-circle"></i> ปัญหาผิว (Concerns) —
+                        เลือกได้หลายข้อ</label>
+                    <div class="predict-checkbox-grid" id="concerns-group">
+                        <label class="predict-chip chip-acne">
+                            <input type="checkbox" data-concerns="สิวอุดตัน|สิวอักเสบ|สิวผด|รอยสิว">
+                            <span><i class="ph-fill ph-fire"></i> ปัญหาสิว</span>
+                            <small class="chip-sub">สิวอุดตัน · สิวอักเสบ · สิวผด · รอยสิว</small>
+                        </label>
+                        <label class="predict-chip chip-oily">
+                            <input type="checkbox" data-concerns="ผิวมันเยิ้ม|รูขุมขนกว้าง">
+                            <span><i class="ph-fill ph-drop-half-bottom"></i> ผิวมัน / รูขุมขน</span>
+                            <small class="chip-sub">ผิวมันเยิ้ม · รูขุมขนกว้าง</small>
+                        </label>
+                        <label class="predict-chip chip-dry">
+                            <input type="checkbox" data-concerns="ผิวแห้ง/ลอก/เป็นขุย|ผิวแพ้ง่าย">
+                            <span><i class="ph-fill ph-leaf"></i> ผิวแห้ง / แพ้ง่าย</span>
+                            <small class="chip-sub">ผิวแห้ง · ลอก · เป็นขุย · ผิวแพ้ง่าย</small>
+                        </label>
+                        <label class="predict-chip chip-dull">
+                            <input type="checkbox" data-concerns="ผิวหมองคล้ำ|ริ้วรอย">
+                            <span><i class="ph-fill ph-sun-dim"></i> ผิวหมองคล้ำ / ริ้วรอย</span>
+                            <small class="chip-sub">ผิวหมองคล้ำ · ริ้วรอย</small>
+                        </label>
+                        <label class="predict-chip chip-none">
+                            <input type="checkbox" data-concerns="ไม่มีปัญหาผิว">
+                            <span><i class="ph-fill ph-smiley"></i> ไม่มีปัญหาผิว</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Factor Sliders -->
+                <div class="predict-field">
+                    <label class="predict-label"><i class="ph-fill ph-sliders-horizontal"></i> ปัจจัยที่สนใจ (Factor
+                        Scores)</label>
+                    <div class="predict-sliders">
+                        <div class="predict-slider-row">
+                            <span class="slider-name">Deep Cleansing<br><small>ทำความสะอาดล้ำลึก</small></span>
+                            <input type="range" id="factor-deep" min="1" max="5" value="3" class="predict-range">
+                            <span class="slider-val" id="factor-deep-val">3</span>
+                        </div>
+                        <div class="predict-slider-row">
+                            <span class="slider-name">Sensitive Friendly<br><small>อ่อนโยนต่อผิวบอบบาง</small></span>
+                            <input type="range" id="factor-sensitive" min="1" max="5" value="3" class="predict-range">
+                            <span class="slider-val" id="factor-sensitive-val">3</span>
+                        </div>
+                        <div class="predict-slider-row">
+                            <span class="slider-name">Oil Control<br><small>ควบคุมความมัน</small></span>
+                            <input type="range" id="factor-oil" min="1" max="5" value="3" class="predict-range">
+                            <span class="slider-val" id="factor-oil-val">3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Predict Button -->
+                <button class="predict-btn" id="predict-btn" onclick="runPrediction()">
+                    <i class="ph-fill ph-sparkle"></i>
+                    <span>ทำนายกลุ่มลูกค้า</span>
+                </button>
+
+                <!-- Result Area -->
+                <div class="predict-result" id="predict-result"></div>
+            </div>
+        </section>
+
         <!-- Graphs Gallery -->
         <section class="sup-section" id="graphs-gallery">
             <h2 class="sup-section-title">
                 <span class="sup-section-icon"><i class="ph-fill ph-images"></i></span>
-                Visualization
+                Demographics
             </h2>
             <p class="sup-section-desc">กราฟทั้งหมด กดคลิกที่รูปเพื่อดูรูป</p>
 
@@ -78,8 +184,7 @@
                 </div>
 
                 <div class="sup-graph-card" onclick="openLightbox(this)">
-                    <img src="../models/images/sup/brand_skin_type.png" alt="Brand Skin Type"
-                        loading="lazy">
+                    <img src="../models/images/sup/brand_skin_type.png" alt="Brand Skin Type" loading="lazy">
                     <div class="sup-graph-overlay">
                         <span class="sup-graph-zoom-icon"></span>
                     </div>
@@ -90,8 +195,7 @@
                 </div>
 
                 <div class="sup-graph-card" onclick="openLightbox(this)">
-                    <img src="../models/images/sup/brand_age.png" alt="Brand Age"
-                        loading="lazy">
+                    <img src="../models/images/sup/brand_age.png" alt="Brand Age" loading="lazy">
                     <div class="sup-graph-overlay">
                         <span class="sup-graph-zoom-icon"></span>
                     </div>
@@ -143,6 +247,11 @@
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxCaption = document.getElementById('lightbox-caption');
 
+        /* ── API Base URL (auto-detect dev vs production) ── */
+        const API_BASE = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:'
+            ? 'http://127.0.0.1:8000'
+            : '';
+
         function openLightbox(card) {
             const img = card.querySelector('img');
             const captionH4 = card.querySelector('.sup-graph-caption h4');
@@ -178,29 +287,40 @@
         const MODEL_TAG_MAP = {
             'Logistic Regression': { tag: 'LR', cssClass: 'tag-lr', id: 'card-logistic' },
             'Decision Tree': { tag: 'DT', cssClass: 'tag-dt', id: 'card-decision-tree' },
-            'Random Forest': { tag: 'RF', cssClass: 'tag-rf', id: 'card-random-forest' }
+            'Random Forest': { tag: 'RF', cssClass: 'tag-rf', id: 'card-random-forest' },
+            'Gradient Boosting': { tag: 'GB', cssClass: 'tag-gb', id: 'card-gradient-boosting' }
         };
 
         async function loadModelPerformance() {
             try {
-                const res = await fetch('../models/supervise/model_performance.json');
+                const res = await fetch(`${API_BASE}/api/model-performance`);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
 
-                const modelKeys = Object.keys(data.Model);
-                const models = modelKeys.map(key => ({
-                    name: data.Model[key],
-                    accuracy: data.Accuracy[key],
-                    precision: data.Precision[key],
-                    recall: data.Recall[key],
-                    f1: data['F1-score'][key]
+                const models = data.map(row => ({
+                    name: row.model_name,
+                    test_accuracy: row.test_accuracy,
+                    test_precision: row.test_precision,
+                    test_recall: row.test_recall,
+                    test_f1: row.test_f1,
+                    train_accuracy: row.train_accuracy,
+                    train_precision: row.train_precision,
+                    train_recall: row.train_recall,
+                    train_f1: row.train_f1
                 }));
 
                 renderModelCards(models);
             } catch (err) {
-                console.error('Failed to load model_performance.json:', err);
+                console.error('Failed to load model performance:', err);
+                let errMsg = err.message;
+                if (err.message.includes('Failed to fetch')) {
+                    errMsg = 'Cannot connect to backend server. Please ensure FastAPI is running on port 8000.';
+                }
                 document.getElementById('sup-stats-grid').innerHTML =
-                    '<div class="sup-loading sup-error"> Error load models</div>';
+                    `<div class="sup-loading sup-error" style="flex-direction: column; gap: 8px;">
+                        <i class="ph-fill ph-warning-circle" style="font-size: 24px;"></i>
+                        <div>Error loading models: ${errMsg}</div>
+                    </div>`;
             }
         }
 
@@ -208,34 +328,66 @@
             const grid = document.getElementById('sup-stats-grid');
             grid.innerHTML = '';
 
+            const icons = ['ph-cpu', 'ph-tree', 'ph-graph', 'ph-chart-polar'];
+
             models.forEach((model, i) => {
                 const meta = MODEL_TAG_MAP[model.name] || { tag: '??', cssClass: 'tag-lr', id: 'card-unknown' };
+                const icon = icons[i % icons.length];
 
                 const card = document.createElement('div');
-                card.className = 'sup-model-card';
+                card.className = 'mc-card';
                 card.id = meta.id;
 
                 card.innerHTML = `
-                    <div class="sup-model-card-header">
-                        <span class="sup-model-tag ${meta.cssClass}">${meta.tag}</span>
-                        <h3>${model.name}</h3>
+                    <div class="mc-header">
+                        <div class="mc-icon ${meta.cssClass}">
+                            <i class="ph-fill ${icon}"></i>
+                        </div>
+                        <div class="mc-title">
+                            <h3>${model.name}</h3>
+                            <p>Model Performance</p>
+                        </div>
                     </div>
-                    <div class="sup-metrics-grid">
-                        <div class="sup-metric">
-                            <span class="sup-metric-value">${model.accuracy.toFixed(2)}</span>
-                            <span class="sup-metric-label">Accuracy</span>
+
+                    <div class="mc-metrics">
+                        <div class="mc-metric-col">
+                            <div class="mc-col-title"><i class="ph-fill ph-flask"></i> Test Data</div>
+                            <div class="mc-row">
+                                <span class="mc-label">Accuracy</span>
+                                <span class="mc-val highlight">${model.test_accuracy.toFixed(2)}</span>
+                            </div>
+                            <div class="mc-row">
+                                <span class="mc-label">Precision</span>
+                                <span class="mc-val">${model.test_precision.toFixed(2)}</span>
+                            </div>
+                            <div class="mc-row">
+                                <span class="mc-label">Recall</span>
+                                <span class="mc-val">${model.test_recall.toFixed(2)}</span>
+                            </div>
+                            <div class="mc-row">
+                                <span class="mc-label">F1-Score</span>
+                                <span class="mc-val">${model.test_f1.toFixed(2)}</span>
+                            </div>
                         </div>
-                        <div class="sup-metric">
-                            <span class="sup-metric-value">${model.precision.toFixed(2)}</span>
-                            <span class="sup-metric-label">Precision</span>
-                        </div>
-                        <div class="sup-metric">
-                            <span class="sup-metric-value">${model.recall.toFixed(2)}</span>
-                            <span class="sup-metric-label">Recall</span>
-                        </div>
-                        <div class="sup-metric">
-                            <span class="sup-metric-value">${model.f1.toFixed(2)}</span>
-                            <span class="sup-metric-label">F1-Score</span>
+
+                        <div class="mc-metric-col">
+                            <div class="mc-col-title"><i class="ph-fill ph-chalkboard-teacher"></i> Train Data</div>
+                            <div class="mc-row">
+                                <span class="mc-label">Accuracy</span>
+                                <span class="mc-val highlight">${model.train_accuracy.toFixed(2)}</span>
+                            </div>
+                            <div class="mc-row">
+                                <span class="mc-label">Precision</span>
+                                <span class="mc-val">${model.train_precision.toFixed(2)}</span>
+                            </div>
+                            <div class="mc-row">
+                                <span class="mc-label">Recall</span>
+                                <span class="mc-val">${model.train_recall.toFixed(2)}</span>
+                            </div>
+                            <div class="mc-row">
+                                <span class="mc-label">F1-Score</span>
+                                <span class="mc-val">${model.train_f1.toFixed(2)}</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -268,6 +420,152 @@
         });
 
         loadModelPerformance();
+
+        /* ── Slider value display ──────────────────────── */
+        document.querySelectorAll('.predict-range').forEach(range => {
+            const valEl = document.getElementById(range.id + '-val');
+            range.addEventListener('input', () => { valEl.textContent = range.value; });
+        });
+
+        /* ── Prediction ────────────────────────────────── */
+        async function runPrediction() {
+            const btn = document.getElementById('predict-btn');
+            const resultDiv = document.getElementById('predict-result');
+
+            // Gather values
+            const sex = document.querySelector('input[name="sex"]:checked').value;
+            const skinType = document.getElementById('skin-type').value;
+            const checkedInputs = [...document.querySelectorAll('#concerns-group input:checked')];
+            const concerns = checkedInputs.flatMap(cb => (cb.dataset.concerns || '').split('|').filter(Boolean));
+            const groupLabels = checkedInputs.map(cb => cb.closest('.predict-chip').querySelector('span').textContent.trim());
+            const factorDeep = parseFloat(document.getElementById('factor-deep').value);
+            const factorSensitive = parseFloat(document.getElementById('factor-sensitive').value);
+            const factorOil = parseFloat(document.getElementById('factor-oil').value);
+
+            // Loading state
+            btn.disabled = true;
+            btn.classList.add('loading');
+            btn.querySelector('span').textContent = 'กำลังทำนาย...';
+            resultDiv.innerHTML = '';
+            resultDiv.className = 'predict-result';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sex,
+                        skin_type: skinType,
+                        concerns,
+                        factor_deep_cleansing: factorDeep,
+                        factor_sensitive_friendly: factorSensitive,
+                        factor_oil_control: factorOil
+                    })
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                renderPredictionResult(data, sex, skinType, groupLabels);
+            } catch (err) {
+                resultDiv.className = 'predict-result show';
+                resultDiv.innerHTML = `
+                    <div class="predict-result-error">
+                        <i class="ph-fill ph-warning-octagon"></i>
+                        <p>ไม่สามารถทำนายได้: ${err.message}</p>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                btn.querySelector('span').textContent = 'ทำนายกลุ่มลูกค้า';
+            }
+        }
+
+        function renderPredictionResult(data, sex, skinType, concerns) {
+            const resultDiv = document.getElementById('predict-result');
+            const isKiyora = data.is_kiyora_customer;
+            const kiyoraProb = (data.probability.kiyora * 100).toFixed(1);
+            const notProb = (data.probability.not_kiyora * 100).toFixed(1);
+
+            const verdictClass = isKiyora ? 'verdict-yes' : 'verdict-no';
+            const verdictIcon = isKiyora ? 'ph-check-circle' : 'ph-x-circle';
+            const verdictText = isKiyora
+                ? 'มีแนวโน้มเป็นลูกค้า Kiyora'
+                : 'ไม่น่าจะเป็นลูกค้า Kiyora';
+            const verdictDesc = isKiyora
+                ? 'จากข้อมูลที่ระบุ โมเดลคาดว่าผู้ใช้มีโปรไฟล์ตรงกับกลุ่มลูกค้า Kiyora'
+                : 'จากข้อมูลที่ระบุ โมเดลคาดว่าผู้ใช้อาจสนใจแบรนด์อื่นมากกว่า';
+
+            resultDiv.innerHTML = `
+                <div class="predict-verdict ${verdictClass}">
+                    <div class="verdict-icon-wrap">
+                        <i class="ph-fill ${verdictIcon}"></i>
+                    </div>
+                    <h3 class="verdict-title">${verdictText}</h3>
+                    <p class="verdict-desc">${verdictDesc}</p>
+                </div>
+
+                <div class="predict-prob-row">
+                    <div class="prob-card">
+                        <div class="prob-gauge">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="url(#grad-kiyora)" stroke-width="10"
+                                    stroke-dasharray="${(kiyoraProb / 100) * 326.7} 326.7"
+                                    stroke-linecap="round"
+                                    transform="rotate(-90 60 60)"
+                                    class="prob-circle-animate"/>
+                                <defs>
+                                    <linearGradient id="grad-kiyora" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#667eea"/>
+                                        <stop offset="100%" stop-color="#764ba2"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="prob-gauge-label">
+                                <span class="prob-pct">${kiyoraProb}%</span>
+                                <span class="prob-tag">Kiyora</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prob-card">
+                        <div class="prob-gauge">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="url(#grad-other)" stroke-width="10"
+                                    stroke-dasharray="${(notProb / 100) * 326.7} 326.7"
+                                    stroke-linecap="round"
+                                    transform="rotate(-90 60 60)"
+                                    class="prob-circle-animate"/>
+                                <defs>
+                                    <linearGradient id="grad-other" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#8e8e93"/>
+                                        <stop offset="100%" stop-color="#636366"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="prob-gauge-label">
+                                <span class="prob-pct">${notProb}%</span>
+                                <span class="prob-tag">Other</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="predict-profile">
+                    <h4><i class="ph-fill ph-user-circle"></i> สรุปข้อมูล</h4>
+                    <div class="profile-tags">
+                        <span class="profile-tag tag-sex"><i class="ph-fill ph-gender-intersex"></i> ${sex}</span>
+                        <span class="profile-tag tag-skin"><i class="ph-fill ph-drop"></i> ${skinType}</span>
+                        ${concerns.map(c => `<span class="profile-tag tag-concern">${c}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            resultDiv.className = 'predict-result show';
+        }
     </script>
 </body>
 

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="4eves Analytics - Unsupervised Learning Segmentation">
     <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="unsupervise.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <title>Unsupervise - 4eves</title>
+    <title>Customer Segments - 4eves Analytics</title>
 </head>
 
 <body>
@@ -19,10 +21,111 @@
     </nav>
 
     <!-- Content Area -->
-    <main class="content-container">
-        <h2>Unsupervise</h2>
-        <p>Unsupervised is comming!</p>
+    <main class="sup-page">
+        <!-- Page Header -->
+        <section class="sup-header">
+            <div class="sup-header-badge">Unsupervised Learning</div>
+            <h1 class="sup-header-title">การจัดกลุ่มลูกค้า (Customer Segments)</h1>
+            <p class="sup-header-desc">
+                วิเคราะห์พฤติกรรมและแบ่งกลุ่มลูกค้าด้วย K-Means Clustering และ PCA
+            </p>
+        </section>
+
+        <!-- Top Section: PCA & Distribution -->
+        <section class="unsup-section unsup-top-grid" id="unsup-top-grid">
+
+            <!-- PCA Card -->
+            <div class="sup-model-card unsup-card">
+                <div class="unsup-card-title">
+                    <i class="ph-fill ph-chart-scatter" style="color: #f5576c;"></i>
+                    การกระจายตัวของกลุ่ม (PCA 2D)
+                </div>
+                <p class="unsup-card-desc">ลดมิติข้อมูลด้วย Principal Component Analysis เพื่อแสดงการแบ่งกลุ่ม</p>
+                <div class="unsup-pca-wrap">
+                    <img src="../models/images/unsup/cluster_pca.png" alt="PCA Scatter Plot"
+                        onclick="openImageOnly(this.src)">
+                </div>
+            </div>
+
+            <!-- Distribution Card -->
+            <div class="sup-model-card unsup-card">
+                <div class="unsup-card-title">
+                    <i class="ph-fill ph-users-three" style="color: #4facfe;"></i>
+                    สัดส่วนกลุ่มลูกค้า
+                </div>
+                <p class="unsup-card-desc">จากกลุ่มตัวอย่างทั้งหมด แบ่งด้วย K-Means (k=3)</p>
+
+                <div class="unsup-dist-bars" id="distribution-bars">
+                    <!-- JS will inject progress bars here -->
+                    <div class="sup-loading">กำลังโหลดข้อมูล...</div>
+                </div>
+
+                <div class="unsup-method-box">
+                    <div class="unsup-method-inner">
+                        <strong>วิธีแบ่ง</strong> แบ่งกลุ่มตามความสัมพันธ์ของฟีเจอร์
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Section: Personas -->
+        <section class="unsup-section" id="personas-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-target"></i></span>
+                Customer Persona รายกลุ่ม
+            </h2>
+            <p class="sup-section-desc">ลักษณะเด่นและพฤติกรรมของลูกค้าในแต่ละ Cluster</p>
+
+            <div class="sup-stats-grid" id="persona-cards">
+                <!-- JS will inject Persona cards here -->
+            </div>
+        </section>
+
+        <!-- Graphs Gallery -->
+        <section class="unsup-section" id="graphs-gallery">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-images"></i></span>
+                Demographics & Statistics
+            </h2>
+            <p class="sup-section-desc">กราฟทั้งหมด กดคลิกที่รูปเพื่อดูรูป</p>
+
+            <div class="sup-gallery">
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/unsup/cluster_heatmap.png" alt="Cluster Heatmap" loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Cluster Feature Heatmap</h4>
+                        <p>ความสัมพันธ์ของฟีเจอร์ในแต่ละกลุ่ม</p>
+                    </div>
+                </div>
+
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/unsup/cluster_sizes.png" alt="Cluster Sizes" loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Cluster Sizes</h4>
+                        <p>สัดส่วนจำนวนลูกค้าในแต่ละกลุ่ม</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" id="lightbox-close" onclick="closeLightbox(event)"
+            aria-label="Close">&times;</button>
+        <div class="lightbox-content" id="lightbox-content">
+            <img id="lightbox-img" src="" alt="Enlarged graph">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script src="unsupervise.js"></script>
 </body>
 
 </html>

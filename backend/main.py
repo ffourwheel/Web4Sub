@@ -1,21 +1,31 @@
 import os
+import sys
 import json
 from pathlib import Path
+
+# Ensure backend directory is in sys.path for absolute imports
+CURRENT_DIR = Path(__file__).resolve().parent
+if str(CURRENT_DIR) not in sys.path:
+    sys.path.insert(0, str(CURRENT_DIR))
+
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import joblib
+import numpy as np
+from pydantic import BaseModel
+from typing import List
 
-# ── Paths ──────────────────────────────────────────────
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_CSV = BASE_DIR / "models" / "data" / "cleansing_water_data.csv"
+import database as db
+
+BASE_DIR = CURRENT_DIR.parent
+UNSUP_PROFILES_JSON = BASE_DIR / "models" / "unsupervise" / "cluster_profiles.json"
 MODEL_PERF_JSON = BASE_DIR / "models" / "supervise" / "model_performance.json"
 IMAGES_DIR = BASE_DIR / "models" / "images"
 
-# ── FastAPI app ────────────────────────────────────────
 app = FastAPI(title="Analytics API", version="1.0.0")
 
-# Allow frontend to call backend (CORS)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,116 +34,171 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve model images as static files
 app.mount("/images", StaticFiles(directory=str(IMAGES_DIR)), name="images")
 
 
-# ── Helpers ────────────────────────────────────────────
-def load_data() -> pd.DataFrame:
-    return pd.read_csv(str(DATA_CSV))
-
-
-def safe_value_counts(series: pd.Series, top_n: int | None = None) -> dict:
-    vc = series.dropna().value_counts()
-    if top_n:
-        vc = vc.head(top_n)
-    return {str(k): int(v) for k, v in vc.items()}
-
-
-# ── API Endpoints ──────────────────────────────────────
-
 @app.get("/api/overview")
 def get_overview():
-    df = load_data()
-    cleansing_users = int((df["use_cleansing_water"] == "ใช้").sum())
-    non_users = int((df["use_cleansing_water"] != "ใช้").sum())
+    cleansing_users = db.count_rows(where="use_cleansing_water = 'ใช้'")
+    total_rows = db.count_rows()
 
     return {
-        "total_respondents": len(df),
-        "total_features": len(df.columns),
+        "total_respondents": total_rows,
+        "total_features": db.total_columns(),
         "cleansing_water_users": cleansing_users,
-        "non_cleansing_water_users": non_users,
-        "missing_values": int(df.isnull().sum().sum()),
+        "non_cleansing_water_users": total_rows - cleansing_users,
+        "missing_values": db.missing_values_count(),
     }
 
 
 @app.get("/api/demographics")
 def get_demographics():
-    df = load_data()
-
     return {
-        "sex": safe_value_counts(df["sex"]),
-        "age": safe_value_counts(df["age"]),
-        "skin_type": safe_value_counts(df["skin_type"]),
-        "occupation": safe_value_counts(df["occupation"], top_n=8),
-        "monthly_income": safe_value_counts(df["monthly_income"]),
-        "acne_level": safe_value_counts(df["acne_level"]),
+        "sex": db.value_counts("sex"),
+        "age": db.value_counts("age"),
+        "skin_type": db.value_counts("skin_type"),
+        "occupation": db.value_counts("occupation", top_n=8),
+        "monthly_income": db.value_counts("monthly_income"),
+        "acne_level": db.value_counts("acne_level"),
     }
 
 
 @app.get("/api/brands")
 def get_brands():
-    df = load_data()
-
     return {
-        "brand_primary": safe_value_counts(df["brand_primary"], top_n=10),
+        "brand_primary": db.value_counts("brand_primary", top_n=10),
     }
 
 
 @app.get("/api/factors")
 def get_factors():
-    df = load_data()
-    factor_cols = [c for c in df.columns if c.startswith("factor_")]
-    means = df[factor_cols].mean().round(2)
-
+    means = db.factor_means()
     factors = {}
-    for col in factor_cols:
-        clean_name = col.replace("factor_", "").replace("_", " ").title()
-        factors[clean_name] = float(means[col])
+    for col, mean_val in means.items():
+        if mean_val is not None:
+            clean_name = col.replace("factor_", "").replace("_", " ").title()
+            factors[clean_name] = float(mean_val)
 
     return {"factors": factors}
 
 
+@app.get("/api/unsupervise")
+def get_unsupervise_profiles():
+    try:
+        with open(str(UNSUP_PROFILES_JSON), "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    except Exception as e:
+        return {"error": str(e)}
+
+
 @app.get("/api/model-performance")
 def get_model_performance():
-    with open(str(MODEL_PERF_JSON), "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return data
+    return db.get_model_performance()
 
 
 @app.get("/api/home-summary")
 def get_home_summary():
-    df = load_data()
-    cleansing_users = int((df["use_cleansing_water"] == "ใช้").sum())
-    factor_cols = [c for c in df.columns if c.startswith("factor_")]
-    means = df[factor_cols].mean().round(2)
+    cleansing_users = db.count_rows(where="use_cleansing_water = 'ใช้'")
+    total_rows = db.count_rows()
+    
+    means = db.factor_means()
+    brand_vc = db.value_counts("brand_primary", top_n=5)
 
-    # Top 5 brands
-    brand_vc = df["brand_primary"].dropna().value_counts().head(5)
-
-    # Factor scores formatted
     factors = {}
-    for col in factor_cols:
-        clean_name = col.replace("factor_", "").replace("_", " ").title()
-        factors[clean_name] = float(means[col])
+    for col, mean_val in means.items():
+        if mean_val is not None:
+            clean_name = col.replace("factor_", "").replace("_", " ").title()
+            factors[clean_name] = float(mean_val)
 
-    # Sort factors by value descending
     factors = dict(sorted(factors.items(), key=lambda x: x[1], reverse=True))
 
     return {
         "overview": {
-            "total_respondents": len(df),
-            "total_features": len(df.columns),
+            "total_respondents": total_rows,
+            "total_features": db.total_columns(),
             "cleansing_water_users": cleansing_users,
-            "non_cleansing_water_users": len(df) - cleansing_users,
+            "non_cleansing_water_users": total_rows - cleansing_users,
         },
         "demographics": {
-            "sex": safe_value_counts(df["sex"]),
-            "age": safe_value_counts(df["age"]),
-            "skin_type": safe_value_counts(df["skin_type"]),
+            "sex": db.value_counts("sex"),
+            "age": db.value_counts("age"),
+            "skin_type": db.value_counts("skin_type"),
         },
         "top_brands": {str(k): int(v) for k, v in brand_vc.items()},
         "factors": factors,
+    }
+    
+# ── Prediction ─────────────────────────────────────────
+MODEL_PKL = BASE_DIR / "models" / "supervise" / "best_model.pkl"
+
+class PredictRequest(BaseModel):
+    sex: str
+    skin_type: str
+    concerns: List[str]
+    factor_deep_cleansing: float = 3.0
+    factor_sensitive_friendly: float = 3.0
+    factor_oil_control: float = 3.0
+
+@app.post("/api/predict")
+def predict_customer(req: PredictRequest):
+    try:
+        model_data = joblib.load(str(MODEL_PKL))
+        if isinstance(model_data, dict):
+            model = model_data['model']
+            scaler = model_data.get('scaler')
+            feature_names = model_data.get('feature_names')
+        else:
+            model = model_data
+            scaler = None
+            feature_names = list(model.feature_names_in_)
+    except Exception as e:
+        return {"error": f"Cannot load model: {e}"}
+
+    if feature_names is None:
+        feature_names = list(model.feature_names_in_)
+
+    feature_vec = {f: 0.0 for f in feature_names}
+
+    # Factor scores
+    if "factor_deep_cleansing" in feature_vec:
+        feature_vec["factor_deep_cleansing"] = req.factor_deep_cleansing
+    if "factor_sensitive_friendly" in feature_vec:
+        feature_vec["factor_sensitive_friendly"] = req.factor_sensitive_friendly
+    if "factor_oil_control" in feature_vec:
+        feature_vec["factor_oil_control"] = req.factor_oil_control
+
+    # Skin type one-hot
+    for f in feature_names:
+        if f.startswith("skin_") and req.skin_type in f:
+            feature_vec[f] = 1.0
+
+    # Concerns one-hot
+    for concern in req.concerns:
+        for f in feature_names:
+            if f.startswith("concern") and concern in f:
+                feature_vec[f] = 1.0
+
+    import pandas as pd_inner
+    X_input = pd_inner.DataFrame([feature_vec], columns=feature_names)
+
+    if scaler is not None:
+        X_scaled = scaler.transform(X_input)
+    else:
+        X_scaled = X_input
+
+    prediction = int(model.predict(X_scaled)[0])
+    probabilities = model.predict_proba(X_scaled)[0].tolist()
+
+    return {
+        "prediction": prediction,
+        "is_kiyora_customer": bool(prediction == 1),
+        "probability": {
+            "not_kiyora": round(probabilities[0], 4),
+            "kiyora": round(probabilities[1], 4),
+        },
+        "input_features": feature_vec,
+        "sex": req.sex,
     }
 
 

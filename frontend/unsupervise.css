@@ -1,0 +1,359 @@
+/* ===================================================================
+   UNSUPERVISE PAGE — SPECIFIC STYLES
+   =================================================================== */
+
+/* --- Sections Animation --- */
+.unsup-section {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.unsup-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Top Grid: PCA + Distribution side by side --- */
+.unsup-top-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* --- Card used in top grid (PCA & Distribution) --- */
+.unsup-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Card title with icon --- */
+.unsup-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f2f2f7;
+    margin-bottom: 4px;
+}
+
+.unsup-card-desc {
+    font-size: 13px;
+    color: #a8a8b3;
+    margin-bottom: 24px;
+}
+
+/* --- PCA Image Container --- */
+.unsup-pca-wrap {
+    flex-grow: 1;
+    text-align: center;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unsup-pca-wrap img {
+    max-height: 350px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+}
+
+.unsup-pca-wrap img:hover {
+    transform: scale(1.02);
+}
+
+/* --- Distribution Bars Container --- */
+.unsup-dist-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-grow: 1;
+}
+
+/* --- Single Distribution Bar Row --- */
+.unsup-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.unsup-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.unsup-bar-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #e5e5e7;
+}
+
+.unsup-bar-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.unsup-bar-meta {
+    font-size: 12px;
+    color: #8e8e93;
+}
+
+.unsup-bar-meta .count {
+    color: #a8a8b3;
+    margin-right: 8px;
+}
+
+.unsup-bar-meta .pct {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.unsup-bar-track {
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.unsup-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Method Info Box --- */
+.unsup-method-box {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.unsup-method-inner {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #8e8e93;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.unsup-method-inner strong {
+    color: #e5e5e7;
+}
+
+/* --- Persona Card --- */
+.unsup-persona {
+    display: flex;
+    flex-direction: column;
+}
+
+.unsup-persona-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.unsup-persona-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.unsup-persona-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.unsup-persona-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.unsup-persona-pct {
+    font-size: 13px;
+    color: #a8a8b3;
+    margin-top: 4px;
+}
+
+.unsup-persona-desc {
+    font-size: 13px;
+    color: #a8a8b3;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+/* --- Feature Importance Block --- */
+.unsup-features-box {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.unsup-features-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8e8e93;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.unsup-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* --- Single Feature Bar --- */
+.unsup-feat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.unsup-feat-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.unsup-feat-name {
+    color: #e5e5e7;
+}
+
+.unsup-feat-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.unsup-feat-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Graph Gallery --- */
+.sup-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.sup-graph-card {
+    background: #1c1c1e;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    position: relative;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sup-graph-card.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sup-graph-card:hover {
+    border-color: rgba(102, 126, 234, 0.4);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.12);
+    transform: scale(1.02);
+}
+
+.sup-graph-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.sup-graph-card:hover img {
+    transform: scale(1.05);
+}
+
+.sup-graph-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+}
+
+.sup-graph-card:hover .sup-graph-overlay {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.sup-graph-zoom-icon {
+    font-size: 32px;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.sup-graph-card:hover .sup-graph-zoom-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Hide caption text in gallery — only visible in lightbox */
+.sup-graph-caption {
+    display: none;
+}
+
+/* ===================================================================
+   RESPONSIVE — Unsupervise
+   =================================================================== */
+@media (max-width: 768px) {
+    .unsup-top-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .unsup-pca-wrap img {
+        max-height: 260px;
+    }
+
+    .unsup-persona-name {
+        font-size: 16px;
+    }
+}
