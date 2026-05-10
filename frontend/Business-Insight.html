@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Business Insight — วิเคราะห์จุดเด่นและกลยุทธ์สำหรับแบรนด์ Kiyora">
     <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="business-insight.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <title>Unsupervise - 4eves</title>
+    <title>Business Insight — Kiyora Analytics</title>
 </head>
 
 <body>
@@ -19,10 +21,206 @@
     </nav>
 
     <!-- Content Area -->
-    <main class="content-container">
-        <h2>Business-Insight</h2>
-        <p>Business-Insight Woww</p>
+    <main class="bi-page">
+
+        <!-- ════════════════ Page Header ════════════════ -->
+        <section class="bi-header">
+            <div class="bi-header-badge">Business Intelligence</div>
+            <h1 class="bi-header-title">Kiyora Insight Dashboard</h1>
+            <p class="bi-header-desc">
+                วิเคราะห์ข้อมูลเชิงลึกของผู้ใช้ Kiyora Cleansing Water<br>
+                Core Values · จุดเด่น · กลยุทธ์การแข่งขัน · คำแนะนำเชิงธุรกิจ
+            </p>
+        </section>
+
+
+        <!-- ════════════════ KPI Overview ════════════════ -->
+        <section class="bi-section" id="bi-kpi-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-chart-bar"></i></span>
+                Kiyora Overview
+            </h2>
+            <p class="bi-section-desc">สถิติภาพรวมของผู้ใช้ Kiyora ในตลาด Cleansing Water</p>
+
+            <div class="bi-kpi-grid" id="bi-kpi-grid">
+                <div class="bi-kpi-card kpi-gradient-total">
+                    <div class="stat-icon"><i class="ph-fill ph-users"></i></div>
+                    <div class="stat-value" id="kpi-total">—</div>
+                    <div class="stat-label">ผู้ตอบทั้งหมด</div>
+                </div>
+                <div class="bi-kpi-card kpi-gradient-cleansing">
+                    <div class="stat-icon"><i class="ph-fill ph-drop"></i></div>
+                    <div class="stat-value" id="kpi-cleansing">—</div>
+                    <div class="stat-label">ใช้ Cleansing Water</div>
+                </div>
+                <div class="bi-kpi-card kpi-gradient-kiyora">
+                    <div class="stat-icon"><i class="ph-fill ph-heart"></i></div>
+                    <div class="stat-value" id="kpi-kiyora">—</div>
+                    <div class="stat-label">เคยใช้ Kiyora</div>
+                </div>
+                <div class="bi-kpi-card kpi-gradient-primary">
+                    <div class="stat-icon"><i class="ph-fill ph-crown"></i></div>
+                    <div class="stat-value" id="kpi-primary">—</div>
+                    <div class="stat-label">ใช้ Kiyora เป็นหลัก</div>
+                </div>
+                <div class="bi-kpi-card kpi-gradient-rate">
+                    <div class="stat-icon"><i class="ph-fill ph-percent"></i></div>
+                    <div class="stat-value" id="kpi-rate">—</div>
+                    <div class="stat-label">สัดส่วนในตลาด</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ════════════════ Core Values ════════════════ -->
+        <section class="bi-section" id="bi-core-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-diamond"></i></span>
+                Kiyora Core Values
+            </h2>
+            <p class="bi-section-desc">จุดเด่นหลักที่ผู้ใช้ Kiyora ให้ความสำคัญมากที่สุด — ควรใช้เป็น Key Message
+                ในการสื่อสารแบรนด์</p>
+
+            <div class="bi-core-grid" id="bi-core-grid">
+                <!-- Dynamic content -->
+            </div>
+        </section>
+
+
+        <!-- ════════════════ Factor Comparison ════════════════ -->
+        <section class="bi-section" id="bi-factor-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-scales"></i></span>
+                Factor Comparison
+            </h2>
+            <p class="bi-section-desc">เปรียบเทียบปัจจัยการเลือกซื้อระหว่าง Kiyora กับตลาดโดยรวม</p>
+
+            <div class="bi-chart-card full-width">
+                <div class="bi-chart-title">
+                    <i class="ph-fill ph-lightning"></i>
+                    ปัจจัยการเลือกซื้อ: Kiyora vs ตลาดรวม
+                </div>
+                <div class="bi-factor-legend">
+                    <div class="bi-factor-legend-item">
+                        <span class="bi-factor-legend-dot kiyora"></span> Kiyora
+                    </div>
+                    <div class="bi-factor-legend-item">
+                        <span class="bi-factor-legend-dot overall"></span> ตลาดรวม
+                    </div>
+                </div>
+                <div id="bi-factor-bars"></div>
+            </div>
+        </section>
+
+
+        <!-- ════════════════ Kiyora Demographics ════════════════ -->
+        <section class="bi-section" id="bi-demo-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-user-focus"></i></span>
+                Kiyora User Demographics
+            </h2>
+            <p class="bi-section-desc">โปรไฟล์ของผู้ใช้ Kiyora — เพศ อายุ สภาพผิว รายได้</p>
+
+            <div class="bi-chart-grid">
+                <!-- Sex Donut -->
+                <div class="bi-chart-card">
+                    <div class="bi-chart-title">
+                        <i class="ph-fill ph-gender-intersex"></i> เพศ
+                    </div>
+                    <div class="bi-donut-wrap" id="bi-sex-donut"></div>
+                </div>
+
+                <!-- Age Bars -->
+                <div class="bi-chart-card">
+                    <div class="bi-chart-title">
+                        <i class="ph-fill ph-cake"></i> กลุ่มอายุ
+                    </div>
+                    <div id="bi-age-bars"></div>
+                </div>
+
+                <!-- Skin Type Bars -->
+                <div class="bi-chart-card">
+                    <div class="bi-chart-title">
+                        <i class="ph-fill ph-sparkle"></i> ประเภทผิว
+                    </div>
+                    <div id="bi-skin-bars"></div>
+                </div>
+
+                <!-- Income Bars -->
+                <div class="bi-chart-card">
+                    <div class="bi-chart-title">
+                        <i class="ph-fill ph-wallet"></i> รายได้ต่อเดือน
+                    </div>
+                    <div id="bi-income-bars"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ════════════════ Correlation Heatmap ════════════════ -->
+        <section class="bi-section" id="bi-heatmap-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-squares-four"></i></span>
+                Correlation Heatmap
+            </h2>
+            <p class="bi-section-desc">Correlation Heatmap แสดงความสัมพันธ์ของปัจจัยต่างๆ กับการใช้ Kiyora</p>
+
+            <div class="bi-chart-card full-width">
+                <div class="bi-chart-title">
+                    Brand Core Values ( เปรียบเทียบปัจจัยการเลือกซื้อระหว่าง Kiyora กับแบรนด์อื่น )
+                </div>
+                <div class="bi-heatmap-img-wrap">
+                    <img id="bi-heatmap-img" src="../models/images/sup/brand_core_values.png"
+                        alt="Brand Core Values Comparison" class="bi-heatmap-img" onclick="openLightbox(this)"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                    <p class="bi-img-error" style="display:none;color:#8e8e93;text-align:center;padding:20px;">
+                        ไม่สามารถโหลดรูป Heatmap ได้ — กรุณาเปิด Backend Server
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modal -->
+        <div class="lightbox" id="bi-lightbox" onclick="closeLightbox()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <div class="lightbox-content">
+                <img id="bi-lightbox-img" src="" alt="Enlarged view" />
+            </div>
+        </div>
+
+
+        <!-- ════════════════ Improvement Gaps ════════════════ -->
+        <section class="bi-section" id="bi-gap-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-warning-circle"></i></span>
+                Improvement Opportunities
+            </h2>
+            <p class="bi-section-desc">ด้านที่ Kiyora ยังตามหลังค่าเฉลี่ยตลาด — โอกาสในการพัฒนา</p>
+
+            <div class="bi-chart-card full-width">
+                <div class="bi-gap-list" id="bi-gaps">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ════════════════ Recommendations ════════════════ -->
+        <section class="bi-section" id="bi-rec-section">
+            <h2 class="bi-section-title">
+                <span class="bi-section-icon"><i class="ph-fill ph-rocket-launch"></i></span>
+                Strategic Recommendations
+            </h2>
+            <p class="bi-section-desc">คำแนะนำเชิงกลยุทธ์จากการวิเคราะห์ข้อมูล — แนวทางที่ควรดำเนินการ</p>
+
+            <div class="bi-rec-grid" id="bi-recommendations">
+                <!-- Dynamic content -->
+            </div>
+        </section>
+
     </main>
+
+    <script src="business-insight.js"></script>
 </body>
 
 </html>

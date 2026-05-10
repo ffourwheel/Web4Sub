@@ -140,6 +140,91 @@ class PredictRequest(BaseModel):
     factor_sensitive_friendly: float = 3.0
     factor_oil_control: float = 3.0
 
+@app.get("/api/business-insight")
+def get_business_insight():
+    total = db.count_rows()
+    cleansing_users = db.count_rows(where="use_cleansing_water = 'ใช้'")
+
+    # Kiyora users (brands_used contains 'Kiyora')
+    kiyora_users = db.count_rows(where="brands_used LIKE '%Kiyora%'")
+    kiyora_primary = db.count_rows(where="brand_primary LIKE '%Kiyora%'")
+
+    # Demographics for Kiyora users
+    kiyora_age = db.value_counts("age", where="brands_used LIKE '%Kiyora%'")
+    kiyora_sex = db.value_counts("sex", where="brands_used LIKE '%Kiyora%'")
+    kiyora_skin = db.value_counts("skin_type", where="brands_used LIKE '%Kiyora%'")
+    kiyora_income = db.value_counts("monthly_income", where="brands_used LIKE '%Kiyora%'")
+    kiyora_occupation = db.value_counts("occupation", top_n=5, where="brands_used LIKE '%Kiyora%'")
+    kiyora_concerns = db.value_counts("concerns", top_n=8, where="brands_used LIKE '%Kiyora%'")
+    kiyora_switch = db.value_counts("switch_factors", top_n=5, where="brands_used LIKE '%Kiyora%'")
+
+    # Factor means for Kiyora vs overall
+    kiyora_factors = db.factor_means(where="brands_used LIKE '%Kiyora%'")
+    overall_factors = db.factor_means(where="use_cleansing_water = 'ใช้'")
+
+    # Top brands for comparison
+    brand_vc = db.value_counts("brand_primary", top_n=5)
+
+    # Brand core values (factor means per top brand)
+    brand_core = {}
+    for brand_name in list(brand_vc.keys())[:5]:
+        brand_factors = db.factor_means(where=f"brand_primary = ?", params=(brand_name,))
+        cleaned = {}
+        for col, val in brand_factors.items():
+            clean_name = col.replace("factor_", "").replace("_", " ").title()
+            cleaned[clean_name] = float(val) if val else 0.0
+        brand_core[brand_name] = cleaned
+
+    # Clean factor names
+    def clean_factors(raw):
+        cleaned = {}
+        for col, val in raw.items():
+            clean_name = col.replace("factor_", "").replace("_", " ").title()
+            cleaned[clean_name] = float(val) if val else 0.0
+        return dict(sorted(cleaned.items(), key=lambda x: x[1], reverse=True))
+
+    kiyora_f = clean_factors(kiyora_factors)
+    overall_f = clean_factors(overall_factors)
+
+    # Find Kiyora core values (top 3 strengths)
+    core_values = list(kiyora_f.items())[:3]
+
+    # Find gaps (areas where Kiyora scores lower than overall)
+    gaps = []
+    for k, v in kiyora_f.items():
+        ov = overall_f.get(k, 0)
+        if ov > v:
+            gaps.append({"factor": k, "kiyora": v, "overall": ov, "gap": round(ov - v, 2)})
+    gaps.sort(key=lambda x: x["gap"], reverse=True)
+
+    return {
+        "overview": {
+            "total_respondents": total,
+            "cleansing_water_users": cleansing_users,
+            "kiyora_users": kiyora_users,
+            "kiyora_primary_users": kiyora_primary,
+            "kiyora_usage_rate": round((kiyora_users / cleansing_users * 100), 1) if cleansing_users else 0,
+        },
+        "demographics": {
+            "age": kiyora_age,
+            "sex": kiyora_sex,
+            "skin_type": kiyora_skin,
+            "income": kiyora_income,
+            "occupation": kiyora_occupation,
+        },
+        "concerns": kiyora_concerns,
+        "switch_factors": kiyora_switch,
+        "factors": {
+            "kiyora": kiyora_f,
+            "overall": overall_f,
+        },
+        "core_values": [{"factor": cv[0], "score": cv[1]} for cv in core_values],
+        "improvement_gaps": gaps[:5],
+        "brand_comparison": brand_core,
+        "brand_market_share": {str(k): int(v) for k, v in brand_vc.items()},
+    }
+
+
 @app.post("/api/predict")
 def predict_customer(req: PredictRequest):
     try:
