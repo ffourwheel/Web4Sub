@@ -47,16 +47,7 @@
 
 โครงสร้างการทำงานใช้สถาปัตยกรรมแบบ Client-Server Architecture โดยมี Flow ดังนี้:
 
-```mermaid
-graph TD;
-    Client[Frontend: HTML/JS] -->|ส่ง HTTP Request| API[Backend: FastAPI];
-    API --> DB[(SQLite: survey.db)];
-    DB -->|คืนค่าชุดข้อมูล| API;
-    API --> Model[Machine Learning Models];
-    Model -->|คำนวณ/ทำนาย/วิเคราะห์| API;
-    API -->|ส่งคืนผลลัพธ์เป็น JSON| Client;
-    Client -->|อัปเดต UI ไดนามิก (DOM)| UI[แสดงผล Dashboard และกราฟ];
-```
+![Workflow](workflow.png)
 
 ---
 
