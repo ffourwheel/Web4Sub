@@ -70,6 +70,13 @@ async function loadClusterProfiles(observer) {
 
         renderDistributionBars(data.clusters, distContainer);
         renderPersonaCards(data.clusters, personaContainer, observer);
+        
+        if (data.anomaly_detection) {
+            renderAnomalyData(data.anomaly_detection);
+        }
+        if (data.pca_analysis) {
+            renderPCAMetrics(data.pca_analysis);
+        }
 
     } catch (err) {
         console.error("Failed to load clusters:", err);
@@ -81,6 +88,48 @@ async function loadClusterProfiles(observer) {
         `;
         if (distContainer) distContainer.innerHTML = errorHTML;
         if (personaContainer) personaContainer.innerHTML = errorHTML;
+    }
+}
+
+// ── PCA Metrics ──
+function renderPCAMetrics(pca) {
+    const container = document.getElementById('pca-metrics');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div><strong>Total Features:</strong> ${pca.total_features}</div>
+        <div><strong style="color: #43e97b;">2D Variance:</strong> ${pca.variance_explained_2d}%</div>
+        <div><strong>90% Variance:</strong> ${pca.components_for_90_pct} components</div>
+    `;
+}
+
+// ── Anomaly Detection ──
+function renderAnomalyData(anomaly) {
+    const pctEl = document.getElementById('anomaly-pct');
+    const countEl = document.getElementById('anomaly-counts');
+    const featuresEl = document.getElementById('anomaly-features-list');
+    
+    if (pctEl) pctEl.innerText = `${anomaly.anomaly_percentage}%`;
+    if (countEl) countEl.innerText = `พบ ${anomaly.n_anomalies} คน จาก ${anomaly.total_samples} คน`;
+    
+    if (featuresEl && anomaly.top_anomaly_features) {
+        featuresEl.innerHTML = anomaly.top_anomaly_features.slice(0, 5).map(f => {
+            return `
+                <div style="background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 13px; color: #e5e5e7; font-weight: 600;">${f.feature}</span>
+                    <div style="display: flex; gap: 12px; font-size: 12px; text-align: right;">
+                        <div>
+                            <div style="color: #8e8e93; font-size: 10px;">ปกติ</div>
+                            <div style="color: #4facfe;">${f.normal_mean.toFixed(2)}</div>
+                        </div>
+                        <div>
+                            <div style="color: #8e8e93; font-size: 10px;">Anomaly</div>
+                            <div style="color: #ffcc00;">${f.anomaly_mean.toFixed(2)}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
     }
 }
 

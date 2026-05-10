@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="4eves Analytics - Unsupervised Learning Segmentation">
+    <meta name="description" content="Cleansing Analytics - Unsupervised Learning Segmentation">
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="unsupervise.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <title>Customer Segments - 4eves Analytics</title>
+    <title>Customer Segments - Cleansing Analytics</title>
 </head>
 
 <body>
@@ -35,12 +35,18 @@
         <section class="unsup-section unsup-top-grid" id="unsup-top-grid">
 
             <!-- PCA Card -->
-            <div class="sup-model-card unsup-card">
+            <div class="sup-model-card unsup-card" id="pca-card">
                 <div class="unsup-card-title">
                     <i class="ph-fill ph-chart-scatter" style="color: #f5576c;"></i>
                     การกระจายตัวของกลุ่ม (PCA 2D)
                 </div>
                 <p class="unsup-card-desc">ลดมิติข้อมูลด้วย Principal Component Analysis เพื่อแสดงการแบ่งกลุ่ม</p>
+                
+                <div class="pca-metrics-bar" id="pca-metrics" style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 13px; color: #e5e5e7; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px;">
+                    <!-- JS will inject PCA metrics here -->
+                    กำลังโหลดข้อมูล PCA...
+                </div>
+
                 <div class="unsup-pca-wrap">
                     <img src="../models/images/unsup/cluster_pca.png" alt="PCA Scatter Plot"
                         onclick="openImageOnly(this.src)">
@@ -63,6 +69,35 @@
                 <div class="unsup-method-box">
                     <div class="unsup-method-inner">
                         <strong>วิธีแบ่ง</strong> แบ่งกลุ่มตามความสัมพันธ์ของฟีเจอร์
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anomaly Detection Section -->
+        <section class="unsup-section" id="anomaly-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-warning-circle" style="color: #ffcc00;"></i></span>
+                Anomaly Detection (ค้นหาลูกค้ากลุ่มผิดปกติ)
+            </h2>
+            <p class="sup-section-desc">วิเคราะห์พฤติกรรมที่แตกต่างจากกลุ่มด้วยอัลกอริทึม Isolation Forest</p>
+            
+            <div class="unsup-top-grid" style="grid-template-columns: 1fr 2fr; margin-bottom: 24px;">
+                <!-- Anomaly Stats -->
+                <div class="sup-model-card unsup-card" style="justify-content: center; align-items: center; text-align: center;">
+                    <div style="font-size: 14px; color: #a8a8b3; margin-bottom: 8px;">อัตราการพบ Anomaly</div>
+                    <div id="anomaly-pct" style="font-size: 48px; font-weight: 800; color: #ffcc00; line-height: 1;">--%</div>
+                    <div id="anomaly-counts" style="font-size: 14px; color: #e5e5e7; margin-top: 8px;">พบ -- คน จาก -- คน</div>
+                </div>
+                
+                <!-- Anomaly Features -->
+                <div class="sup-model-card unsup-card">
+                    <div class="unsup-card-title" style="font-size: 16px;">
+                        <i class="ph-fill ph-list-magnifying-glass" style="color: #4facfe;"></i> ปัจจัยหลักที่ทำให้เป็น Anomaly
+                    </div>
+                    <p class="unsup-card-desc" style="margin-bottom: 12px;">Feature ที่มีความแตกต่างมากที่สุดเมื่อเทียบกับกลุ่มปกติ</p>
+                    <div id="anomaly-features-list" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- JS will inject anomaly features here -->
                     </div>
                 </div>
             </div>
@@ -109,6 +144,28 @@
                     <div class="sup-graph-caption">
                         <h4>Cluster Sizes</h4>
                         <p>สัดส่วนจำนวนลูกค้าในแต่ละกลุ่ม</p>
+                    </div>
+                </div>
+                
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/unsup/anomaly_pca.png" alt="Anomaly PCA" loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>Anomaly Detection (PCA)</h4>
+                        <p>จุดสีแดงแสดงกลุ่มลูกค้าที่มีพฤติกรรมแปลกแยกจากกลุ่มหลัก (Isolation Forest)</p>
+                    </div>
+                </div>
+                
+                <div class="sup-graph-card" onclick="openLightbox(this)">
+                    <img src="../models/images/unsup/pca_variance.png" alt="PCA Variance" loading="lazy">
+                    <div class="sup-graph-overlay">
+                        <span class="sup-graph-zoom-icon"></span>
+                    </div>
+                    <div class="sup-graph-caption">
+                        <h4>PCA Explained Variance</h4>
+                        <p>สัดส่วนความแปรปรวนที่สามารถอธิบายได้ด้วย Principal Components</p>
                     </div>
                 </div>
             </div>
