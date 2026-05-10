@@ -98,7 +98,7 @@ function renderPCAMetrics(pca) {
 
     container.innerHTML = `
         <div><strong>Total Features:</strong> <br>${pca.total_features}</div>
-        <div><strong style="color: #43e97b;">2D Variance:</strong> <br>${pca.variance_explained_2d}%</div>
+        <div><strong>2D Variance:</strong> <br>${pca.variance_explained_2d}%</div>
         <div><strong>90% Variance:</strong> <br>${pca.components_for_90_pct} components</div>
     `;
 }
