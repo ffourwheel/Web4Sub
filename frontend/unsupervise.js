@@ -131,6 +131,14 @@ function renderAnomalyData(anomaly) {
             `;
         }).join('');
     }
+
+    // Animate cards visibility
+    const anomalyCards = document.querySelectorAll('#anomaly-section .sup-model-card');
+    anomalyCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('visible');
+        }, 100 * index);
+    });
 }
 
 // ── Distribution Progress Bars ──
