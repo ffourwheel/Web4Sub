@@ -1,8 +1,3 @@
-/**
- * Business Insight — Kiyora Analytics Dashboard
- * Fetches data from /api/business-insight and renders rich visualizations.
- */
-
 // ═══════════════════════════════════════════════════════
 //  Configuration
 // ═══════════════════════════════════════════════════════

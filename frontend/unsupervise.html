@@ -27,50 +27,110 @@
             <div class="sup-header-badge">Unsupervised Learning</div>
             <h1 class="sup-header-title">การจัดกลุ่มลูกค้า (Customer Segments)</h1>
             <p class="sup-header-desc">
-                วิเคราะห์พฤติกรรมและแบ่งกลุ่มลูกค้าด้วย K-Means Clustering และ PCA
+                วิเคราะห์พฤติกรรมลูกค้าด้วย 3 อัลกอริทึม (K-Means, Agglomerative, Gaussian Mixture)
+                เลือก Best Model อัตโนมัติ และตรวจจับ Anomaly ด้วย Isolation Forest
             </p>
         </section>
 
-        <!-- Top Section: PCA & Distribution -->
-        <section class="unsup-section unsup-top-grid" id="unsup-top-grid">
+        <!-- Model Comparison Section -->
+        <section class="unsup-section" id="model-comparison-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-chart-bar"></i></span>
+                Model Comparison (Silhouette Score)
+            </h2>
+            <p class="sup-section-desc">เปรียบเทียบคะแนน Silhouette Score ของทั้ง 3 โมเดล — คะแนนยิ่งสูงยิ่งดี</p>
 
-            <!-- PCA Card -->
-            <div class="sup-model-card unsup-card" id="pca-card">
-                <div class="unsup-card-title">
-                    <i class="ph-fill ph-chart-scatter" style="color: #f5576c;"></i>
-                    การกระจายตัวของกลุ่ม (PCA 2D)
+            <div class="unsup-top-grid">
+                <!-- Model Scores Card -->
+                <div class="sup-model-card unsup-card" id="model-scores-card">
+                    <div class="unsup-card-title">
+                        <i class="ph-fill ph-trophy" style="color: #f8b500;"></i>
+                        คะแนนแต่ละโมเดล
+                    </div>
+                    <p class="unsup-card-desc">Silhouette Score เปรียบเทียบ 3 อัลกอริทึม</p>
+
+                    <div class="unsup-model-scores-list" id="model-scores-list">
+                        <div class="sup-loading">กำลังโหลดข้อมูล...</div>
+                    </div>
+
+                    <div class="unsup-best-model-badge" id="best-model-badge">
+                        <!-- JS will inject best model info here -->
+                    </div>
                 </div>
-                <p class="unsup-card-desc">ลดมิติข้อมูลด้วย Principal Component Analysis เพื่อแสดงการแบ่งกลุ่ม</p>
 
-                <div class="pca-metrics-bar" id="pca-metrics"
-                    style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 13px; color: #e5e5e7; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px;">
-                    <!-- JS will inject PCA metrics here -->
-                    กำลังโหลดข้อมูล PCA...
-                </div>
-
-                <div class="unsup-pca-wrap">
-                    <img src="../models/images/unsup/cluster_pca.png" alt="PCA Scatter Plot"
-                        onclick="openImageOnly(this.src)">
+                <!-- Model Scores Chart Image -->
+                <div class="sup-model-card unsup-card" id="model-chart-card">
+                    <div class="unsup-card-title">
+                        <i class="ph-fill ph-chart-bar-horizontal" style="color: #667eea;"></i>
+                        กราฟเปรียบเทียบ
+                    </div>
+                    <p class="unsup-card-desc">Bar chart แสดง Silhouette Score ของแต่ละโมเดล</p>
+                    <div class="unsup-pca-wrap">
+                        <img src="../models/images/unsup/1_model_scores.png" alt="Model Comparison Scores"
+                            onclick="openImageOnly(this.src)">
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Distribution Card -->
-            <div class="sup-model-card unsup-card">
-                <div class="unsup-card-title">
-                    <i class="ph-fill ph-users-three" style="color: #4facfe;"></i>
-                    สัดส่วนกลุ่มลูกค้า
-                </div>
-                <p class="unsup-card-desc">จากกลุ่มตัวอย่างทั้งหมด แบ่งด้วย K-Means (k=3)</p>
+        <!-- PCA Clustering Section -->
+        <section class="unsup-section" id="pca-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-chart-scatter" style="color: #f5576c;"></i></span>
+                PCA Visualization & Customer Distribution
+            </h2>
+            <p class="sup-section-desc">ลดมิติข้อมูลด้วย PCA แล้วแสดงการกระจายตัวของกลุ่มลูกค้า</p>
 
-                <div class="unsup-dist-bars" id="distribution-bars">
-                    <!-- JS will inject progress bars here -->
-                    <div class="sup-loading">กำลังโหลดข้อมูล...</div>
-                </div>
-
-                <div class="unsup-method-box">
-                    <div class="unsup-method-inner">
-                        <strong>วิธีแบ่ง</strong> แบ่งกลุ่มตามความสัมพันธ์ของฟีเจอร์
+            <div class="unsup-top-grid">
+                <!-- PCA Best Model Segmentation -->
+                <div class="sup-model-card unsup-card" id="pca-card">
+                    <div class="unsup-card-title">
+                        <i class="ph-fill ph-chart-scatter" style="color: #f5576c;"></i>
+                        Best Model Segmentation (PCA 2D)
                     </div>
+                    <p class="unsup-card-desc" id="pca-card-desc">การกระจายตัวของกลุ่มลูกค้าจาก Best Model</p>
+
+                    <div class="unsup-pca-wrap">
+                        <img src="../models/images/unsup/5_best_model_segmentation.png" alt="Best Model PCA Scatter"
+                            onclick="openImageOnly(this.src)">
+                    </div>
+                </div>
+
+                <!-- Distribution Card -->
+                <div class="sup-model-card unsup-card" id="distribution-card">
+                    <div class="unsup-card-title">
+                        <i class="ph-fill ph-users-three" style="color: #4facfe;"></i>
+                        สัดส่วนกลุ่มลูกค้า
+                    </div>
+                    <p class="unsup-card-desc" id="distribution-desc">จากกลุ่มตัวอย่างทั้งหมด แบ่งด้วย Best Model (k=3)</p>
+
+                    <div class="unsup-dist-bars" id="distribution-bars">
+                        <!-- JS will inject progress bars here -->
+                        <div class="sup-loading">กำลังโหลดข้อมูล...</div>
+                    </div>
+
+                    <div class="unsup-method-box">
+                        <div class="unsup-method-inner" id="method-info">
+                            <strong>วิธีแบ่ง</strong> แบ่งกลุ่มตามความสัมพันธ์ของฟีเจอร์ (skin_type + concerns)
+                            ด้วยอัลกอริทึมที่ได้ Silhouette Score สูงสุด
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3-Model PCA Comparison -->
+        <section class="unsup-section" id="comparison-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-columns"></i></span>
+                การเปรียบเทียบ 3 โมเดล (PCA View)
+            </h2>
+            <p class="sup-section-desc">Scatter plot แสดงผลการ Clustering ของแต่ละอัลกอริทึมบน PCA 2D</p>
+
+            <div class="sup-model-card unsup-card unsup-full-card" id="comparison-img-card">
+                <div class="unsup-pca-wrap unsup-pca-wide">
+                    <img src="../models/images/unsup/2_models_pca_comparison.png" alt="3-Model PCA Comparison"
+                        onclick="openImageOnly(this.src)">
                 </div>
             </div>
         </section>
@@ -83,28 +143,44 @@
             </h2>
             <p class="sup-section-desc">วิเคราะห์พฤติกรรมที่แตกต่างจากกลุ่มด้วยอัลกอริทึม Isolation Forest</p>
 
-            <div class="unsup-top-grid" style="grid-template-columns: 1fr 2fr; margin-bottom: 24px;">
+            <div class="unsup-top-grid unsup-anomaly-grid">
                 <!-- Anomaly Stats -->
-                <div class="sup-model-card unsup-card"
-                    style="justify-content: center; align-items: center; text-align: center;">
-                    <div style="font-size: 14px; color: #a8a8b3; margin-bottom: 8px;">อัตราการพบ Anomaly</div>
-                    <div id="anomaly-pct" style="font-size: 48px; font-weight: 800; color: #ffcc00; line-height: 1;">--%
+                <div class="sup-model-card unsup-card unsup-anomaly-stats" id="anomaly-stats-card">
+                    <div class="unsup-anomaly-stat-label">อัตราการพบ Anomaly</div>
+                    <div class="unsup-anomaly-pct" id="anomaly-pct">--%</div>
+                    <div class="unsup-anomaly-counts" id="anomaly-counts">พบ -- คน จาก -- คน</div>
+                    <div class="unsup-anomaly-method">
+                        <i class="ph-fill ph-tree-structure"></i> Isolation Forest (n_estimators=100)
                     </div>
-                    <div id="anomaly-counts" style="font-size: 14px; color: #e5e5e7; margin-top: 8px;">พบ -- คน จาก --
-                        คน</div>
                 </div>
 
-                <!-- Anomaly Features -->
-                <div class="sup-model-card unsup-card">
-                    <div class="unsup-card-title" style="font-size: 16px;">
-                        <i class="ph-fill ph-list-magnifying-glass" style="color: #4facfe;"></i> ปัจจัยหลักที่ทำให้เป็น
-                        Anomaly
+                <!-- Anomaly PCA Chart -->
+                <div class="sup-model-card unsup-card" id="anomaly-chart-card">
+                    <div class="unsup-card-title">
+                        <i class="ph-fill ph-crosshair" style="color: #ff6b6b;"></i>
+                        Anomaly Detection (PCA View)
                     </div>
-                    <p class="unsup-card-desc" style="margin-bottom: 12px;">Feature
-                        ที่มีความแตกต่างมากที่สุดเมื่อเทียบกับกลุ่มปกติ</p>
-                    <div id="anomaly-features-list" style="display: flex; flex-direction: column; gap: 8px;">
-                        <!-- JS will inject anomaly features here -->
+                    <p class="unsup-card-desc">จุด X สีแดงแสดงลูกค้าที่มีพฤติกรรมแปลกแยกจากกลุ่มหลัก</p>
+                    <div class="unsup-pca-wrap">
+                        <img src="../models/images/unsup/4_anomaly_detection.png" alt="Anomaly Detection PCA"
+                            onclick="openImageOnly(this.src)">
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Heatmap Section -->
+        <section class="unsup-section" id="heatmap-section">
+            <h2 class="sup-section-title">
+                <span class="sup-section-icon"><i class="ph-fill ph-grid-nine" style="color: #a855f7;"></i></span>
+                Feature Dominance Heatmap
+            </h2>
+            <p class="sup-section-desc">ค่าเฉลี่ยของฟีเจอร์เด่นในแต่ละ Cluster — ยิ่งเข้มยิ่งมีน้ำหนักสูง</p>
+
+            <div class="sup-model-card unsup-card unsup-full-card" id="heatmap-img-card">
+                <div class="unsup-pca-wrap unsup-pca-wide">
+                    <img src="../models/images/unsup/3_best_cluster_heatmap.png" alt="Feature Dominance Heatmap"
+                        onclick="openImageOnly(this.src)">
                 </div>
             </div>
         </section>
@@ -119,61 +195,6 @@
 
             <div class="sup-stats-grid" id="persona-cards">
                 <!-- JS will inject Persona cards here -->
-            </div>
-        </section>
-
-        <!-- Graphs Gallery -->
-        <section class="unsup-section" id="graphs-gallery">
-            <h2 class="sup-section-title">
-                <span class="sup-section-icon"><i class="ph-fill ph-images"></i></span>
-                Demographics & Statistics
-            </h2>
-            <p class="sup-section-desc">กราฟทั้งหมด กดคลิกที่รูปเพื่อดูรูป</p>
-
-            <div class="sup-gallery">
-                <div class="sup-graph-card" onclick="openLightbox(this)">
-                    <img src="../models/images/unsup/cluster_heatmap.png" alt="Cluster Heatmap" loading="lazy">
-                    <div class="sup-graph-overlay">
-                        <span class="sup-graph-zoom-icon"></span>
-                    </div>
-                    <div class="sup-graph-caption">
-                        <h4>Cluster Feature Heatmap</h4>
-                        <p>ความสัมพันธ์ของฟีเจอร์ในแต่ละกลุ่ม</p>
-                    </div>
-                </div>
-
-                <div class="sup-graph-card" onclick="openLightbox(this)">
-                    <img src="../models/images/unsup/cluster_sizes.png" alt="Cluster Sizes" loading="lazy">
-                    <div class="sup-graph-overlay">
-                        <span class="sup-graph-zoom-icon"></span>
-                    </div>
-                    <div class="sup-graph-caption">
-                        <h4>Cluster Sizes</h4>
-                        <p>สัดส่วนจำนวนลูกค้าในแต่ละกลุ่ม</p>
-                    </div>
-                </div>
-
-                <div class="sup-graph-card" onclick="openLightbox(this)">
-                    <img src="../models/images/unsup/anomaly_pca.png" alt="Anomaly PCA" loading="lazy">
-                    <div class="sup-graph-overlay">
-                        <span class="sup-graph-zoom-icon"></span>
-                    </div>
-                    <div class="sup-graph-caption">
-                        <h4>Anomaly Detection (PCA)</h4>
-                        <p>จุดสีแดงแสดงกลุ่มลูกค้าที่มีพฤติกรรมแปลกแยกจากกลุ่มหลัก (Isolation Forest)</p>
-                    </div>
-                </div>
-
-                <div class="sup-graph-card" onclick="openLightbox(this)">
-                    <img src="../models/images/unsup/pca_variance.png" alt="PCA Variance" loading="lazy">
-                    <div class="sup-graph-overlay">
-                        <span class="sup-graph-zoom-icon"></span>
-                    </div>
-                    <div class="sup-graph-caption">
-                        <h4>PCA Explained Variance</h4>
-                        <p>สัดส่วนความแปรปรวนที่สามารถอธิบายได้ด้วย Principal Components</p>
-                    </div>
-                </div>
             </div>
         </section>
     </main>

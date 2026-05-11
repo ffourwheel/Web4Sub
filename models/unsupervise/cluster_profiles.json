@@ -1,265 +1,102 @@
 {
+    "best_model_used": "Gaussian Mixture",
+    "model_scores": {
+        "K-Means": 0.122,
+        "Agglomerative": 0.125,
+        "Gaussian Mixture": 0.126
+    },
     "clusters": [
         {
             "cluster_id": 0,
-            "size": 29,
-            "percentage": 35.4,
+            "size": 37,
+            "percentage": 45.1,
             "top_skin_types": [
                 {
                     "name": "ผิวผสม",
-                    "pct": 0.483
+                    "pct": 0.865
                 },
                 {
                     "name": "ผิวแห้ง",
-                    "pct": 0.207
+                    "pct": 0.081
                 }
             ],
             "top_concerns": [
                 {
-                    "name": "สิวอุดตัน",
-                    "pct": 0.897
+                    "name": "รูขุมขนกว้าง",
+                    "pct": 0.784
                 },
                 {
-                    "name": "สิวอักเสบ",
-                    "pct": 0.828
+                    "name": "สิวอุดตัน",
+                    "pct": 0.676
                 },
                 {
                     "name": "สิวผด",
-                    "pct": 0.759
+                    "pct": 0.541
                 }
-            ],
-            "all_features": {
-                "skin_ผิวขาดน้ำ": 0.138,
-                "skin_ผิวธรรมดา": 0.069,
-                "skin_ผิวผสม": 0.483,
-                "skin_ผิวมัน": 0.0,
-                "skin_ผิวแห้ง": 0.207,
-                "skin_ไม่แน่ใจ/ไม่ทราบ": 0.103,
-                "concern_uneven skintone": 0.034,
-                "concern_ผิวมันเยิ้ม": 0.207,
-                "concern_ผิวหมองคล้ำ": 0.448,
-                "concern_ผิวแพ้ง่าย": 0.586,
-                "concern_ผิวแห้ง/ลอก/เป็นขุย": 0.207,
-                "concern_ฝ้า กระ": 0.0,
-                "concern_รอยสิว": 0.034,
-                "concern_รูขุมขนกว้าง": 0.655,
-                "concern_สิวผด": 0.759,
-                "concern_สิวอักเสบ": 0.828,
-                "concern_สิวอุดตัน": 0.897,
-                "concern_สิวเสี้ยน": 0.0,
-                "concern_ไม่มีปัญหาผิว": 0.034
-            }
+            ]
         },
         {
             "cluster_id": 1,
-            "size": 35,
-            "percentage": 42.7,
-            "top_skin_types": [
-                {
-                    "name": "ผิวผสม",
-                    "pct": 0.543
-                },
-                {
-                    "name": "ผิวแห้ง",
-                    "pct": 0.171
-                }
-            ],
-            "top_concerns": [
-                {
-                    "name": "รูขุมขนกว้าง",
-                    "pct": 0.629
-                },
-                {
-                    "name": "ผิวแห้ง/ลอก/เป็นขุย",
-                    "pct": 0.457
-                },
-                {
-                    "name": "ผิวหมองคล้ำ",
-                    "pct": 0.4
-                }
-            ],
-            "all_features": {
-                "skin_ผิวขาดน้ำ": 0.057,
-                "skin_ผิวธรรมดา": 0.143,
-                "skin_ผิวผสม": 0.543,
-                "skin_ผิวมัน": 0.0,
-                "skin_ผิวแห้ง": 0.171,
-                "skin_ไม่แน่ใจ/ไม่ทราบ": 0.086,
-                "concern_uneven skintone": 0.0,
-                "concern_ผิวมันเยิ้ม": 0.229,
-                "concern_ผิวหมองคล้ำ": 0.4,
-                "concern_ผิวแพ้ง่าย": 0.143,
-                "concern_ผิวแห้ง/ลอก/เป็นขุย": 0.457,
-                "concern_ฝ้า กระ": 0.029,
-                "concern_รอยสิว": 0.0,
-                "concern_รูขุมขนกว้าง": 0.629,
-                "concern_สิวผด": 0.257,
-                "concern_สิวอักเสบ": 0.057,
-                "concern_สิวอุดตัน": 0.314,
-                "concern_สิวเสี้ยน": 0.029,
-                "concern_ไม่มีปัญหาผิว": 0.029
-            }
-        },
-        {
-            "cluster_id": 2,
-            "size": 18,
-            "percentage": 22.0,
+            "size": 25,
+            "percentage": 30.5,
             "top_skin_types": [
                 {
                     "name": "ผิวมัน",
-                    "pct": 1.0
+                    "pct": 0.72
+                },
+                {
+                    "name": "ไม่แน่ใจ/ไม่ทราบ",
+                    "pct": 0.24
                 }
             ],
             "top_concerns": [
                 {
                     "name": "สิวอุดตัน",
-                    "pct": 0.944
+                    "pct": 0.84
                 },
                 {
                     "name": "รูขุมขนกว้าง",
-                    "pct": 0.833
+                    "pct": 0.68
                 },
                 {
                     "name": "ผิวมันเยิ้ม",
-                    "pct": 0.722
+                    "pct": 0.64
+                }
+            ]
+        },
+        {
+            "cluster_id": 2,
+            "size": 20,
+            "percentage": 24.4,
+            "top_skin_types": [
+                {
+                    "name": "ผิวแห้ง",
+                    "pct": 0.45
+                },
+                {
+                    "name": "ผิวธรรมดา",
+                    "pct": 0.3
                 }
             ],
-            "all_features": {
-                "skin_ผิวขาดน้ำ": 0.0,
-                "skin_ผิวธรรมดา": 0.0,
-                "skin_ผิวผสม": 0.0,
-                "skin_ผิวมัน": 1.0,
-                "skin_ผิวแห้ง": 0.0,
-                "skin_ไม่แน่ใจ/ไม่ทราบ": 0.0,
-                "concern_uneven skintone": 0.0,
-                "concern_ผิวมันเยิ้ม": 0.722,
-                "concern_ผิวหมองคล้ำ": 0.389,
-                "concern_ผิวแพ้ง่าย": 0.611,
-                "concern_ผิวแห้ง/ลอก/เป็นขุย": 0.056,
-                "concern_ฝ้า กระ": 0.0,
-                "concern_รอยสิว": 0.0,
-                "concern_รูขุมขนกว้าง": 0.833,
-                "concern_สิวผด": 0.5,
-                "concern_สิวอักเสบ": 0.556,
-                "concern_สิวอุดตัน": 0.944,
-                "concern_สิวเสี้ยน": 0.0,
-                "concern_ไม่มีปัญหาผิว": 0.0
-            }
+            "top_concerns": [
+                {
+                    "name": "รูขุมขนกว้าง",
+                    "pct": 0.5
+                },
+                {
+                    "name": "สิวผด",
+                    "pct": 0.4
+                },
+                {
+                    "name": "สิวอุดตัน",
+                    "pct": 0.4
+                }
+            ]
         }
     ],
     "anomaly_detection": {
         "method": "Isolation Forest",
-        "total_samples": 82,
-        "n_anomalies": 9,
-        "n_normal": 73,
-        "anomaly_percentage": 11.0,
-        "contamination_param": 0.1,
-        "per_cluster": [
-            {
-                "cluster_id": 0,
-                "total": 29,
-                "anomalies": 5,
-                "normal": 24,
-                "anomaly_rate": 17.2
-            },
-            {
-                "cluster_id": 1,
-                "total": 35,
-                "anomalies": 4,
-                "normal": 31,
-                "anomaly_rate": 11.4
-            },
-            {
-                "cluster_id": 2,
-                "total": 18,
-                "anomalies": 0,
-                "normal": 18,
-                "anomaly_rate": 0.0
-            }
-        ],
-        "top_anomaly_features": [
-            {
-                "feature": "ไม่แน่ใจ/ไม่ทราบ",
-                "anomaly_mean": 0.444,
-                "normal_mean": 0.027,
-                "difference": 0.417
-            },
-            {
-                "feature": "ผิวมัน",
-                "anomaly_mean": 0.0,
-                "normal_mean": 0.247,
-                "difference": 0.247
-            },
-            {
-                "feature": "สิวอุดตัน",
-                "anomaly_mean": 0.444,
-                "normal_mean": 0.685,
-                "difference": 0.24
-            },
-            {
-                "feature": "ไม่มีปัญหาผิว",
-                "anomaly_mean": 0.222,
-                "normal_mean": 0.0,
-                "difference": 0.222
-            },
-            {
-                "feature": "ผิวผสม",
-                "anomaly_mean": 0.222,
-                "normal_mean": 0.425,
-                "difference": 0.202
-            },
-            {
-                "feature": "ผิวหมองคล้ำ",
-                "anomaly_mean": 0.556,
-                "normal_mean": 0.397,
-                "difference": 0.158
-            },
-            {
-                "feature": "รูขุมขนกว้าง",
-                "anomaly_mean": 0.556,
-                "normal_mean": 0.699,
-                "difference": 0.143
-            },
-            {
-                "feature": "สิวอักเสบ",
-                "anomaly_mean": 0.556,
-                "normal_mean": 0.425,
-                "difference": 0.131
-            }
-        ]
-    },
-    "pca_analysis": {
-        "total_features": 19,
-        "total_samples": 82,
-        "components_for_90_pct": 14,
-        "components_for_95_pct": 16,
-        "variance_explained_2d": 22.2,
-        "top_components": [
-            {
-                "component": 1,
-                "variance_explained": 12.9,
-                "cumulative": 12.9
-            },
-            {
-                "component": 2,
-                "variance_explained": 9.3,
-                "cumulative": 22.2
-            },
-            {
-                "component": 3,
-                "variance_explained": 8.6,
-                "cumulative": 30.8
-            },
-            {
-                "component": 4,
-                "variance_explained": 8.1,
-                "cumulative": 38.9
-            },
-            {
-                "component": 5,
-                "variance_explained": 7.6,
-                "cumulative": 46.4
-            }
-        ]
+        "n_anomalies": 31,
+        "anomaly_percentage": 37.8
     }
 }
