@@ -3,12 +3,10 @@ import pandas as pd
 from pathlib import Path
 from contextlib import contextmanager
 
-# ── Paths ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "backend" / "survey.db"
 CSV_PATH = BASE_DIR / "models" / "data" / "cleansing_water_data.csv"
 
-# ── Column definitions ─────────────────────────────────
 TEXT_COLUMNS = [
     "sex", "age", "occupation", "monthly_income", "province",
     "skin_type", "concerns", "acne_level", "consult_influencer",
@@ -28,8 +26,6 @@ FLOAT_COLUMNS = [
 
 ALL_COLUMNS = TEXT_COLUMNS + FLOAT_COLUMNS
 
-
-# ── Connection helper ──────────────────────────────────
 @contextmanager
 def get_db():
     conn = sqlite3.connect(str(DB_PATH))
@@ -39,8 +35,6 @@ def get_db():
     finally:
         conn.close()
 
-
-# ── Table creation ─────────────────────────────────────
 def create_tables():
     text_cols = ", ".join([f'"{c}" TEXT' for c in TEXT_COLUMNS])
     float_cols = ", ".join([f'"{c}" REAL' for c in FLOAT_COLUMNS])
@@ -57,8 +51,6 @@ def create_tables():
         conn.commit()
     print(f"Table 'survey_responses' ready in {DB_PATH}")
 
-
-# ── CSV import ─────────────────────────────────────────
 def import_csv():
     import pandas as pd
 
@@ -93,8 +85,6 @@ def import_csv():
 
     print(f"Imported {len(rows)} rows into survey_responses")
 
-
-# ── Query helpers ──────────────────────────────────────
 def fetch_all(query: str, params: tuple = ()) -> list[dict]:
     with get_db() as conn:
         cursor = conn.execute(query, params)
@@ -167,7 +157,6 @@ def get_model_performance() -> list[dict]:
     except sqlite3.OperationalError:
         return []
 
-# ── Initialize ─────────────────────────────────────────
 def init_db():
     create_tables()
     import_csv()

@@ -1,8 +1,3 @@
-/**
- * Home Dashboard — 4eves Analytics
- * Fetches data from FastAPI backend and renders interactive charts.
- */
-
 // ═══════════════════════════════════════════════════════
 //  Configuration
 // ═══════════════════════════════════════════════════════

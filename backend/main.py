@@ -127,8 +127,8 @@ def get_home_summary():
         "top_brands": {str(k): int(v) for k, v in brand_vc.items()},
         "factors": factors,
     }
-    
-# ── Prediction ─────────────────────────────────────────
+
+## Prediction
 MODEL_PKL = BASE_DIR / "models" / "supervise" / "best_model.pkl"
 
 class PredictRequest(BaseModel):
@@ -144,11 +144,9 @@ def get_business_insight():
     total = db.count_rows()
     cleansing_users = db.count_rows(where="use_cleansing_water = 'ใช้'")
 
-    # Kiyora users (brands_used contains 'Kiyora')
     kiyora_users = db.count_rows(where="brands_used LIKE '%Kiyora%'")
     kiyora_primary = db.count_rows(where="brand_primary LIKE '%Kiyora%'")
 
-    # Demographics for Kiyora users
     kiyora_age = db.value_counts("age", where="brands_used LIKE '%Kiyora%'")
     kiyora_sex = db.value_counts("sex", where="brands_used LIKE '%Kiyora%'")
     kiyora_skin = db.value_counts("skin_type", where="brands_used LIKE '%Kiyora%'")
@@ -157,14 +155,11 @@ def get_business_insight():
     kiyora_concerns = db.value_counts("concerns", top_n=8, where="brands_used LIKE '%Kiyora%'")
     kiyora_switch = db.value_counts("switch_factors", top_n=5, where="brands_used LIKE '%Kiyora%'")
 
-    # Factor means for Kiyora vs overall
     kiyora_factors = db.factor_means(where="brands_used LIKE '%Kiyora%'")
     overall_factors = db.factor_means(where="use_cleansing_water = 'ใช้'")
 
-    # Top brands for comparison
     brand_vc = db.value_counts("brand_primary", top_n=5)
 
-    # Brand core values (factor means per top brand)
     brand_core = {}
     for brand_name in list(brand_vc.keys())[:5]:
         brand_factors = db.factor_means(where=f"brand_primary = ?", params=(brand_name,))
@@ -174,7 +169,6 @@ def get_business_insight():
             cleaned[clean_name] = float(val) if val else 0.0
         brand_core[brand_name] = cleaned
 
-    # Clean factor names
     def clean_factors(raw):
         cleaned = {}
         for col, val in raw.items():
@@ -185,10 +179,8 @@ def get_business_insight():
     kiyora_f = clean_factors(kiyora_factors)
     overall_f = clean_factors(overall_factors)
 
-    # Find Kiyora core values (top 3 strengths)
     core_values = list(kiyora_f.items())[:3]
 
-    # Find gaps (areas where Kiyora scores lower than overall)
     gaps = []
     for k, v in kiyora_f.items():
         ov = overall_f.get(k, 0)
@@ -244,7 +236,6 @@ def predict_customer(req: PredictRequest):
 
     feature_vec = {f: 0.0 for f in feature_names}
 
-    # Factor scores
     if "factor_deep_cleansing" in feature_vec:
         feature_vec["factor_deep_cleansing"] = req.factor_deep_cleansing
     if "factor_sensitive_friendly" in feature_vec:
@@ -252,12 +243,10 @@ def predict_customer(req: PredictRequest):
     if "factor_oil_control" in feature_vec:
         feature_vec["factor_oil_control"] = req.factor_oil_control
 
-    # Skin type one-hot
     for f in feature_names:
         if f.startswith("skin_") and req.skin_type in f:
             feature_vec[f] = 1.0
 
-    # Concerns one-hot
     for concern in req.concerns:
         for f in feature_names:
             if f.startswith("concern") and concern in f:
@@ -285,8 +274,6 @@ def predict_customer(req: PredictRequest):
         "sex": req.sex,
     }
 
-
-# ── Run ────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
