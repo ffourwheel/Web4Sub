@@ -12,7 +12,6 @@ from sklearn.feature_selection import SelectFromModel
 
 import sqlite3
 
-# Connect to database and load data
 conn = sqlite3.connect('./backend/survey.db')
 df = pd.read_sql_query('SELECT * FROM survey_responses', conn)
 conn.close()

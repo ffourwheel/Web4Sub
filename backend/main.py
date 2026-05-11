@@ -3,7 +3,6 @@ import sys
 import json
 from pathlib import Path
 
-# Ensure backend directory is in sys.path for absolute imports
 CURRENT_DIR = Path(__file__).resolve().parent
 if str(CURRENT_DIR) not in sys.path:
     sys.path.insert(0, str(CURRENT_DIR))

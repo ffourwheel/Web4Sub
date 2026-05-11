@@ -9,7 +9,6 @@ DB_PATH = BASE_DIR / "backend" / "survey.db"
 CSV_PATH = BASE_DIR / "models" / "data" / "cleansing_water_data.csv"
 
 # ── Column definitions ─────────────────────────────────
-# All 28 columns from the CSV, preserving original names
 TEXT_COLUMNS = [
     "sex", "age", "occupation", "monthly_income", "province",
     "skin_type", "concerns", "acne_level", "consult_influencer",
