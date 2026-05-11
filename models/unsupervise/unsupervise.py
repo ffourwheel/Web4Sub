@@ -36,7 +36,7 @@ X = pd.concat([skin_type_encoded, concerns_encoded], axis=1).fillna(0)
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-pca_clustering = PCA(n_components=0.90, random_state=42)
+pca_clustering = PCA(n_components=0.70, random_state=42)
 X_pca = pca_clustering.fit_transform(X_scaled)
 
 N_CLUSTERS = 3
