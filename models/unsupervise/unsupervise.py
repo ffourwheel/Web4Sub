@@ -20,7 +20,7 @@ OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
 
 df = pd.read_csv(DATA_PATH)
 
-df_clean = df.dropna(subset=['skin_type', 'concerns']).copy()
+df_clean = df[df['use_cleansing_water'] == 'ใช้'].dropna(subset=['skin_type', 'concerns']).copy()
 
 skin_type_encoded = pd.get_dummies(df_clean['skin_type'], prefix='skin')
 
