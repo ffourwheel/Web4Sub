@@ -9,10 +9,17 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.feature_selection import SelectFromModel
-
 import sqlite3
+from pathlib import Path
 
-conn = sqlite3.connect('./backend/survey.db')
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DB_PATH = BASE_DIR / 'backend' / 'survey.db'
+IMG_DIR = BASE_DIR / 'models' / 'images' / 'sup'
+MODEL_DIR = BASE_DIR / 'models' / 'supervise'
+
+IMG_DIR.mkdir(parents=True, exist_ok=True)
+
+conn = sqlite3.connect(str(DB_PATH))
 df = pd.read_sql_query('SELECT * FROM survey_responses', conn)
 conn.close()
 
@@ -55,7 +62,7 @@ top_features = corr.sort_values().index
 sns.heatmap(X[top_features].join(y).corr(), annot=True, cmap='coolwarm', fmt=".2f")
 plt.title('Correlation Heatmap (Top 10 Features vs Uses Kiyora)')
 plt.tight_layout()
-plt.savefig('./models/images/sup/corr_heatmap.png')
+plt.savefig(str(IMG_DIR / 'corr_heatmap.png'))
 # plt.show()
 
 class plot:
@@ -66,14 +73,14 @@ class plot:
     sns.countplot(y='age', hue='brand_primary', data=df_top_brands, order=df_top_brands['age'].value_counts().index)
     plt.title('อายุคนที่ใช้แต่ละแบรนด์เป็นหลัก')
     plt.tight_layout()
-    plt.savefig('./models/images/sup/brand_age.png')
+    plt.savefig(str(IMG_DIR / 'brand_age.png'))
     # plt.show()
 
     plt.figure(figsize=(10, 8))
     sns.countplot(y='skin_type', hue='brand_primary', data=df_top_brands, order=df_top_brands['skin_type'].value_counts().index)
     plt.title('สภาพผิวของคนที่ใช้แต่ละแบรนด์เป็นหลัก')
     plt.tight_layout()
-    plt.savefig('./models/images/sup/brand_skin_type.png')
+    plt.savefig(str(IMG_DIR / 'brand_skin_type.png'))
     # plt.show()
 
     plt.figure(figsize=(14, 8))
@@ -84,7 +91,7 @@ class plot:
     plt.title('คะแนนปัจจัยในการเลือกซื้อแต่ละแบรนด์เป็นหลัก')
     plt.xlabel('คะแนน (1-5)')
     plt.tight_layout()
-    plt.savefig('./models/images/sup/brand_factors.png')
+    plt.savefig(str(IMG_DIR / 'brand_factors.png'))
     # plt.show()
 
 class plotComparison:
@@ -103,7 +110,7 @@ class plotComparison:
     plt.xlabel('Brands')
     plt.ylabel('Factors')
     plt.tight_layout()
-    plt.savefig('./models/images/sup/brand_core_values.png')
+    plt.savefig(str(IMG_DIR / 'brand_core_values.png'))
     # plt.show()
     
 class train:
@@ -203,10 +210,10 @@ class train:
         'scaler': scaler,
         'feature_names': list(selected_features)
     }
-    joblib.dump(model_data, './models/supervise/best_model.pkl')
+    joblib.dump(model_data, str(MODEL_DIR / 'best_model.pkl'))
     print(f"\nbest model to best_model.pkl Accuracy: {best_overall_score:.4f}")
 
-    conn = sqlite3.connect('./backend/survey.db')
+    conn = sqlite3.connect(str(DB_PATH))
 
     db_df = display_df.copy()
     db_df.rename(columns={
@@ -223,7 +230,7 @@ class train:
     
     db_df.to_sql('model_performance', conn, if_exists='replace', index=False)
     conn.close()
-    print("Saved modelto database table 'model_performance'")
+    print("Saved model to database table 'model_performance'")
 
     #plot
     display_df.set_index('Model', inplace=True)
@@ -247,5 +254,5 @@ class train:
     axes[1].legend(loc='upper right')
     axes[1].tick_params(axis='x', rotation=0)
     plt.tight_layout()
-    plt.savefig('./models/images/sup/model_performance.png')
+    plt.savefig(str(IMG_DIR / 'model_performance.png'))
     # plt.show()

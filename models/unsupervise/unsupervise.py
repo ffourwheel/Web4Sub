@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import sqlite3
 from pathlib import Path
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
@@ -14,14 +15,15 @@ from sklearn.manifold import TSNE
 from sklearn.metrics import silhouette_score
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATA_PATH = BASE_DIR / 'models' / 'data' / 'cleansing_water_data.csv'
-OUT_JSON = BASE_DIR / 'models' / 'unsupervise' / 'cluster_profiles.json'
+DB_PATH = BASE_DIR / 'backend' / 'survey.db'
 IMG_DIR = BASE_DIR / 'models' / 'images' / 'unsup'
 
 IMG_DIR.mkdir(parents=True, exist_ok=True)
-OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
 
-df = pd.read_csv(DATA_PATH)
+conn = sqlite3.connect(str(DB_PATH))
+df = pd.read_sql_query('SELECT * FROM survey_responses', conn)
+conn.close()
+
 df_clean = df[df['use_cleansing_water'] == 'ใช้'].dropna(subset=['skin_type', 'concerns']).copy()
 
 skin_type_encoded = pd.get_dummies(df_clean['skin_type'], prefix='skin')
@@ -172,16 +174,28 @@ for c in range(N_CLUSTERS):
 n_anomalies = int((df_clean['anomaly_label'] == -1).sum())
 anomaly_pct = round((n_anomalies / len(df_clean)) * 100, 1)
 
-output_data = {
-    "best_model_used": best_model_name,
-    "model_scores": {k: round(v, 4) for k, v in model_scores.items()},
-    "clusters": cluster_profiles,
-    "anomaly_detection": {
-        "method": "Isolation Forest",
-        "n_anomalies": n_anomalies,
-        "anomaly_percentage": anomaly_pct,
-    }
-}
+conn = sqlite3.connect(str(DB_PATH))
 
-with open(OUT_JSON, 'w', encoding='utf-8') as f:
-    json.dump(output_data, f, ensure_ascii=False, indent=4)
+cluster_df = pd.DataFrame({
+    'cluster_id': [cp['cluster_id'] for cp in cluster_profiles],
+    'size': [cp['size'] for cp in cluster_profiles],
+    'percentage': [cp['percentage'] for cp in cluster_profiles],
+    'top_skin_types': [json.dumps(cp['top_skin_types'], ensure_ascii=False) for cp in cluster_profiles],
+    'top_concerns': [json.dumps(cp['top_concerns'], ensure_ascii=False) for cp in cluster_profiles],
+})
+cluster_df.to_sql('cluster_profiles', conn, if_exists='replace', index=False)
+
+scores_df = pd.DataFrame([
+    {'model_name': k, 'silhouette_score': v} for k, v in model_scores.items()
+])
+scores_df['is_best'] = (scores_df['model_name'] == best_model_name).astype(int)
+scores_df.to_sql('unsup_model_scores', conn, if_exists='replace', index=False)
+
+anomaly_df = pd.DataFrame([{
+    'method': 'Isolation Forest',
+    'n_anomalies': n_anomalies,
+    'anomaly_percentage': anomaly_pct,
+}])
+anomaly_df.to_sql('anomaly_detection', conn, if_exists='replace', index=False)
+
+conn.close()

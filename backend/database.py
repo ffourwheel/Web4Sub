@@ -157,6 +157,41 @@ def get_model_performance() -> list[dict]:
     except sqlite3.OperationalError:
         return []
 
+
+def get_unsupervise_results() -> dict:
+    import json
+    try:
+        clusters_raw = fetch_all("SELECT * FROM cluster_profiles")
+        clusters = []
+        for row in clusters_raw:
+            clusters.append({
+                'cluster_id': row['cluster_id'],
+                'size': row['size'],
+                'percentage': row['percentage'],
+                'top_skin_types': json.loads(row['top_skin_types']) if row['top_skin_types'] else [],
+                'top_concerns': json.loads(row['top_concerns']) if row['top_concerns'] else [],
+            })
+
+        scores_raw = fetch_all("SELECT * FROM unsup_model_scores")
+        model_scores = {row['model_name']: row['silhouette_score'] for row in scores_raw}
+        best_model = next((row['model_name'] for row in scores_raw if row.get('is_best')), None)
+
+        anomaly_raw = fetch_one("SELECT * FROM anomaly_detection")
+        anomaly = {
+            'method': anomaly_raw['method'] if anomaly_raw else 'Isolation Forest',
+            'n_anomalies': anomaly_raw['n_anomalies'] if anomaly_raw else 0,
+            'anomaly_percentage': anomaly_raw['anomaly_percentage'] if anomaly_raw else 0,
+        }
+
+        return {
+            'best_model_used': best_model,
+            'model_scores': model_scores,
+            'clusters': clusters,
+            'anomaly_detection': anomaly,
+        }
+    except sqlite3.OperationalError:
+        return {"error": "ยังไม่ได้รัน unsupervised model — ไม่มีข้อมูลในฐานข้อมูล"}
+
 def init_db():
     create_tables()
     import_csv()

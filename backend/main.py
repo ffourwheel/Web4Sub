@@ -81,12 +81,14 @@ def get_factors():
 
 @app.get("/api/unsupervise")
 def get_unsupervise_profiles():
-    try:
-        with open(str(UNSUP_PROFILES_JSON), "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data
-    except Exception as e:
-        return {"error": str(e)}
+    data = db.get_unsupervise_results()
+    if "error" in data:
+        try:
+            with open(str(UNSUP_PROFILES_JSON), "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            return {"error": str(e)}
+    return data
 
 
 @app.get("/api/model-performance")
