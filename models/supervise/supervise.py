@@ -50,7 +50,7 @@ print("--- ปัจจัยที่มีผลเชิงบวกต่อ
 print(corr.head(5))
 
 plt.rcParams['font.family'] = 'Tahoma'
-plt.figure(figsize=(30, 30))
+plt.figure(figsize=(20, 20))
 top_features = corr.sort_values().index
 sns.heatmap(X[top_features].join(y).corr(), annot=True, cmap='coolwarm', fmt=".2f")
 plt.title('Correlation Heatmap (Top 10 Features vs Uses Kiyora)')
@@ -174,7 +174,7 @@ class train:
         train_f1 = f1_score(y_train, y_train_pred, zero_division=0)
         
         y_pred = best_model.predict(X_test)
-        acc = accuracy_score(y_test, y_pred)
+        acc = f1_score(y_test, y_pred)
         
         results.append({
             'Model': name,
@@ -223,7 +223,7 @@ class train:
     
     db_df.to_sql('model_performance', conn, if_exists='replace', index=False)
     conn.close()
-    print("Saved model performance to database table 'model_performance'")
+    print("Saved modelto database table 'model_performance'")
 
     #plot
     display_df.set_index('Model', inplace=True)
