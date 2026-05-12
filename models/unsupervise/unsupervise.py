@@ -65,7 +65,7 @@ best_model_name = max(model_scores, key=model_scores.get)
 
 df_clean['cluster'] = model_labels[best_model_name]
 
-iso_forest = IsolationForest(n_estimators=100, contamination='auto', random_state=42)
+iso_forest = IsolationForest(n_estimators=100, contamination=0.01, random_state=42)
 df_clean['anomaly_label'] = iso_forest.fit_predict(X_scaled)
 df_clean['anomaly_status'] = df_clean['anomaly_label'].map({1: 'Normal', -1: 'Anomaly'})
 
