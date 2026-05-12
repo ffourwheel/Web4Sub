@@ -2,8 +2,6 @@ import os
 import json
 import numpy as np
 import pandas as pd
-import matplotlib
-matplotlib.use('Agg')
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sqlite3
