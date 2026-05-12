@@ -28,7 +28,11 @@ ALL_COLUMNS = TEXT_COLUMNS + FLOAT_COLUMNS
 
 @contextmanager
 def get_db():
-    conn = sqlite3.connect(str(DB_PATH))
+    # Vercel has a read-only filesystem; use URI mode for read-only access
+    try:
+        conn = sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)
+    except sqlite3.OperationalError:
+        conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
     try:
         yield conn

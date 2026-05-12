@@ -1,7 +1,12 @@
 import os
 import sys
-import json
 from pathlib import Path
+
+# ── sys.path MUST be set BEFORE importing local modules ──
+CURRENT_DIR = Path(__file__).resolve().parent
+if str(CURRENT_DIR) not in sys.path:
+    sys.path.insert(0, str(CURRENT_DIR))
+
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,10 +16,6 @@ import numpy as np
 from pydantic import BaseModel
 from typing import List
 import database as db
-
-CURRENT_DIR = Path(__file__).resolve().parent
-if str(CURRENT_DIR) not in sys.path:
-    sys.path.insert(0, str(CURRENT_DIR))
 
 BASE_DIR = CURRENT_DIR.parent
 IMAGES_DIR = BASE_DIR / "models" / "images"
@@ -29,7 +30,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/images", StaticFiles(directory=str(IMAGES_DIR)), name="images")
+# Guard: only mount static files if the directory exists (avoids crash on Vercel)
+if IMAGES_DIR.is_dir():
+    app.mount("/images", StaticFiles(directory=str(IMAGES_DIR)), name="images")
 
 
 @app.get("/api/overview")
