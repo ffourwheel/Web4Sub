@@ -143,6 +143,7 @@ class PredictRequest(BaseModel):
 def get_business_insight():
     total = db.count_rows()
     cleansing_users = db.count_rows(where="use_cleansing_water = 'ใช้'")
+    
     kiyora_users = db.count_rows(where="brands_used LIKE '%Kiyora%'")
     kiyora_primary = db.count_rows(where="brand_primary LIKE '%Kiyora%'")
     kiyora_age = db.value_counts("age", where="brands_used LIKE '%Kiyora%'")
