@@ -162,7 +162,7 @@ class train:
     best_overall_score = 0
 
     for name, model in models.items():
-        grid_search = GridSearchCV(model, param_grids[name], cv=5, scoring='f1', n_jobs=-1)
+        grid_search = GridSearchCV(model, param_grids[name], cv=5, scoring='accuracy', n_jobs=-1)
         grid_search.fit(X_train, y_train)
         
         best_model = grid_search.best_estimator_
@@ -174,7 +174,7 @@ class train:
         train_f1 = f1_score(y_train, y_train_pred, zero_division=0)
         
         y_pred = best_model.predict(X_test)
-        acc = f1_score(y_test, y_pred)
+        acc = accuracy_score(y_test, y_pred)
         
         results.append({
             'Model': name,
