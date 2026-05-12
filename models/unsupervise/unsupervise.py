@@ -2,6 +2,8 @@ import os
 import json
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sqlite3
@@ -89,6 +91,7 @@ for bar in bars:
 
 plt.tight_layout()
 plt.savefig(IMG_DIR / '1_model_scores.png', dpi=150)
+plt.close()
 #plt.show()
 
 fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharex=True, sharey=True)
@@ -106,6 +109,7 @@ for ax, (name, labels) in zip(axes, model_labels.items()):
 
 plt.tight_layout()
 plt.savefig(IMG_DIR / '2_models_pca_comparison.png', dpi=150)
+plt.close()
 #plt.show()
 
 X_temp = X.copy()
@@ -121,6 +125,7 @@ sns.heatmap(clean_centers.T, annot=True, cmap="Purples", fmt=".2f", cbar=True)
 plt.title(f"Feature Dominance per Cluster ({best_model_name})", fontsize=14, pad=15)
 plt.tight_layout()
 plt.savefig(IMG_DIR / '3_best_cluster_heatmap.png', dpi=150)
+plt.close()
 #plt.show()
 
 plt.figure(figsize=(9, 6))
@@ -136,6 +141,7 @@ plt.ylabel("PCA 2")
 plt.legend(title="Status", bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 plt.savefig(IMG_DIR / '4_anomaly_detection.png', dpi=150)
+plt.close()
 #plt.show()
 
 plt.figure(figsize=(9, 6))
@@ -149,6 +155,7 @@ plt.ylabel("PCA Component 2")
 plt.legend(title="Cluster", bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 plt.savefig(IMG_DIR / '5_best_model_segmentation.png', dpi=150)
+plt.close()
 #plt.show()
 
 cluster_profiles = []

@@ -17,8 +17,6 @@ if str(CURRENT_DIR) not in sys.path:
     sys.path.insert(0, str(CURRENT_DIR))
 
 BASE_DIR = CURRENT_DIR.parent
-UNSUP_PROFILES_JSON = BASE_DIR / "models" / "unsupervise" / "cluster_profiles.json"
-MODEL_PERF_JSON = BASE_DIR / "models" / "supervise" / "model_performance.json"
 IMAGES_DIR = BASE_DIR / "models" / "images"
 
 app = FastAPI(title="Analytics API", version="1.0.0")
@@ -82,12 +80,6 @@ def get_factors():
 @app.get("/api/unsupervise")
 def get_unsupervise_profiles():
     data = db.get_unsupervise_results()
-    if "error" in data:
-        try:
-            with open(str(UNSUP_PROFILES_JSON), "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception as e:
-            return {"error": str(e)}
     return data
 
 
@@ -251,8 +243,7 @@ def predict_customer(req: PredictRequest):
             if f.startswith("concern") and concern in f:
                 feature_vec[f] = 1.0
 
-    import pandas as pd_inner
-    X_input = pd_inner.DataFrame([feature_vec], columns=feature_names)
+    X_input = pd.DataFrame([feature_vec], columns=feature_names)
 
     if scaler is not None:
         X_scaled = scaler.transform(X_input)

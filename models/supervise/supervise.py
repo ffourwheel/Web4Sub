@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -43,9 +45,10 @@ concerns_df = get_dummies_multiselect(df_clean['concerns'], 'concern')
 # df_clean.to_csv('clean_cleansing_water_data.csv', index=False)
 
 skin_type_encoded = pd.get_dummies(df_clean['skin_type'], prefix='skin', drop_first=False)
-le = LabelEncoder()
-df_clean['age_encoded'] = le.fit_transform(df_clean['age'])
-df_clean['income_encoded'] = le.fit_transform(df_clean['monthly_income'])
+le_age = LabelEncoder()
+le_income = LabelEncoder()
+df_clean['age_encoded'] = le_age.fit_transform(df_clean['age'])
+df_clean['income_encoded'] = le_income.fit_transform(df_clean['monthly_income'])
 
 
 X = pd.concat([df_clean[factor_cols], concerns_df, skin_type_encoded, df_clean[['age_encoded', 'income_encoded']]], axis=1)
@@ -63,6 +66,7 @@ sns.heatmap(X[top_features].join(y).corr(), annot=True, cmap='coolwarm', fmt=".2
 plt.title('Correlation Heatmap (Top 10 Features vs Uses Kiyora)')
 plt.tight_layout()
 plt.savefig(str(IMG_DIR / 'corr_heatmap.png'))
+plt.close()
 # plt.show()
 
 class plot:
@@ -74,6 +78,7 @@ class plot:
     plt.title('อายุคนที่ใช้แต่ละแบรนด์เป็นหลัก')
     plt.tight_layout()
     plt.savefig(str(IMG_DIR / 'brand_age.png'))
+    plt.close()
     # plt.show()
 
     plt.figure(figsize=(10, 8))
@@ -81,6 +86,7 @@ class plot:
     plt.title('สภาพผิวของคนที่ใช้แต่ละแบรนด์เป็นหลัก')
     plt.tight_layout()
     plt.savefig(str(IMG_DIR / 'brand_skin_type.png'))
+    plt.close()
     # plt.show()
 
     plt.figure(figsize=(14, 8))
@@ -92,6 +98,7 @@ class plot:
     plt.xlabel('คะแนน (1-5)')
     plt.tight_layout()
     plt.savefig(str(IMG_DIR / 'brand_factors.png'))
+    plt.close()
     # plt.show()
 
 class plotComparison:
@@ -111,6 +118,7 @@ class plotComparison:
     plt.ylabel('Factors')
     plt.tight_layout()
     plt.savefig(str(IMG_DIR / 'brand_core_values.png'))
+    plt.close()
     # plt.show()
     
 class train:
@@ -255,4 +263,5 @@ class train:
     axes[1].tick_params(axis='x', rotation=0)
     plt.tight_layout()
     plt.savefig(str(IMG_DIR / 'model_performance.png'))
+    plt.close()
     # plt.show()
