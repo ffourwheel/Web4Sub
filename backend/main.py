@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-# ── sys.path MUST be set BEFORE importing local modules ──
 CURRENT_DIR = Path(__file__).resolve().parent
 if str(CURRENT_DIR) not in sys.path:
     sys.path.insert(0, str(CURRENT_DIR))
@@ -30,7 +29,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Guard: only mount static files if the directory exists (avoids crash on Vercel)
 if IMAGES_DIR.is_dir():
     app.mount("/images", StaticFiles(directory=str(IMAGES_DIR)), name="images")
 
