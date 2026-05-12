@@ -84,7 +84,7 @@ def import_csv():
         conn.commit()
 
     print(f"Imported {len(rows)} rows into survey_responses")
-
+    
 def fetch_all(query: str, params: tuple = ()) -> list[dict]:
     with get_db() as conn:
         cursor = conn.execute(query, params)

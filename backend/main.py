@@ -2,11 +2,6 @@ import os
 import sys
 import json
 from pathlib import Path
-
-CURRENT_DIR = Path(__file__).resolve().parent
-if str(CURRENT_DIR) not in sys.path:
-    sys.path.insert(0, str(CURRENT_DIR))
-
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,8 +10,11 @@ import joblib
 import numpy as np
 from pydantic import BaseModel
 from typing import List
-
 import database as db
+
+CURRENT_DIR = Path(__file__).resolve().parent
+if str(CURRENT_DIR) not in sys.path:
+    sys.path.insert(0, str(CURRENT_DIR))
 
 BASE_DIR = CURRENT_DIR.parent
 UNSUP_PROFILES_JSON = BASE_DIR / "models" / "unsupervise" / "cluster_profiles.json"
